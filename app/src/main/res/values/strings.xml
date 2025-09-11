@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">G-Track</string>
+    <string name="user_name">Korisnik</string>
+    <string name="password">Lozinka</string>
+    <string name="password_repeat">Ponovi lozinku</string>
+    <string name="login">PRIJAVI SE</string>
+    <string name="version_name">G-TRACK DEMO</string>
+    <string name="account">Napravite nalog</string>
+    <string name="label">Oznaka</string>
+    <string name="save">Sačuvaj</string>
+    <string name="autor">Autor: Zoran Perčinov\nIT sistemi kvaliteta, 2025</string>
+    <string name="Account">Upravljanje korisnicima </string>
+    <string name="user_list">Lista korisnika </string>
+    <string name="forgot_pass">Zaboravili ste lozinku? </string>
+    <string name="mail">Email adresa </string>
+    <string name="preview">Prikaži</string>
+    <string name="date_label">Datum unosa</string>
+    <string name="export_label">Izvezi</string>
+    <string name="log_label">Pregled evidencije</string>
+    <string name="send_label">Pošalji</string>
+
+
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <!-- Narandžasta pozadina -->
+    <solid android:color="@color/narandzasta"/>
+
+    <!-- Zaobljeni uglovi -->
+    <corners android:radius="24dp" />
+
+    <!-- Bela ivica -->
+    <stroke
+        android:width="1dp"
+        android:color="@color/bela"/>
+</shape>

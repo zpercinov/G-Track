@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:background="@drawable/rounded_corner_white"
+    android:layout_marginBottom="6dp">
+
+    <TextView
+        android:id="@+id/textvOznaka"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label"
+        android:textStyle="bold"
+        android:textColor="@color/bela"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/textvKorisnik"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_name"
+        android:textColor="@color/bela"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/textvDatum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date_label"
+        android:textSize="14sp"
+        android:textColor="@color/bela" />
+
+</LinearLayout>

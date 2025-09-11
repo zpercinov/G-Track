@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="crna">#FF000000</color>
+    <color name="bela">#FFFFFFFF</color>
+    <color name="plava">#0062FB</color>
+    <color name="narandzasta">#F36F21</color>
+    <color name="narandzastaButton">#f6840b</color>
+    <color name="braon">#925A16</color>
+    <color name="zuta">#F6ED90</color>
+
+</resources>

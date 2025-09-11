@@ -1,0 +1,159 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/user_management"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/login_background_hf_style"
+    tools:context=".ui.account.AccountActivity">
+
+    <!-- HEADER -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <!-- Ikonica levo -->
+        <ImageView
+            android:id="@+id/imgAccount"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/icon_account_circle_orange"
+            android:contentDescription="@string/app_name"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- Tekst u sredini -->
+        <TextView
+            android:id="@+id/txtAccount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Account"
+            android:textColor="@color/narandzasta"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/imgAccount"
+            app:layout_constraintEnd_toStartOf="@id/btnIzlazApp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"/>
+
+        <!-- Dugme za izlaz desno -->
+        <ImageButton
+            android:id="@+id/btnIzlazApp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/narandzasta"
+            android:src="@drawable/ic_logout_button"
+            tools:ignore="SpeakableTextPresentCheck"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- FORMA -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        android:padding="16dp"
+        android:backgroundTint="@color/bela">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Korisničko ime -->
+            <EditText
+                android:id="@+id/edtKorIme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/user_name"
+                android:inputType="textPersonName"
+                android:padding="12dp"/>
+
+            <!-- Email -->
+            <AutoCompleteTextView
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/mail"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"/>
+            <!-- Lozinka -->
+            <EditText
+                android:id="@+id/edtLozinka"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"/>
+            <!-- Potvrdna lozinka -->
+            <EditText
+                android:id="@+id/edtLozinkaCheck"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/password_repeat"
+                android:inputType="textPassword"
+                android:layout_marginTop="8dp"
+                android:padding="12dp"/>
+
+
+
+            <!-- Dugme -->
+            <Button
+                android:id="@+id/btnRegistracija"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:textSize="18sp"
+                android:textColor="@color/bela"
+                android:backgroundTint="@color/narandzasta"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- LISTA KORISNIKA -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/user_list"
+        android:textColor="@color/narandzasta"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/rounded_corner_orange"
+
+        android:layout_marginBottom="8dp"/>
+
+
+
+
+
+
+</LinearLayout>
+

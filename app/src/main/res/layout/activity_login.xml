@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background_hf_style"
+    tools:context=".ui.login.LoginActivity">
+
+
+    <!-- HEADER: LOGO -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp">
+
+        <!-- Logo -->
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/hemofarm_logo_orange"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <!-- Naslov -->
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/version_name"
+            android:textColor="@color/narandzasta"
+            android:textStyle="bold"
+            android:textSize="26sp"
+            android:layout_marginStart="10dp"
+            android:gravity="center" />
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Dugme skroz desno -->
+        <ImageButton
+            android:id="@+id/btnIzlazApp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/narandzastaButton"
+            android:gravity="center"
+            android:src="@drawable/ic_logout_button"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="70dp">
+
+    <TextView
+        android:id="@+id/txtAuthor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="12dp"
+        android:text="@string/autor"
+        android:textColor="@color/narandzasta"
+        android:textSize="11sp"
+        android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- LOGIN FORMA -->
+    <LinearLayout
+        android:id="@+id/loginForm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="64dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        tools:ignore="ExtraText">
+
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:src="@drawable/icon_account_circle_white"/>
+
+        <Spinner
+
+            android:id="@+id/cbKorIme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_corner_white"
+            android:padding="18dp"
+            android:layout_marginTop="32dp"
+
+            />
+
+
+        />
+
+        <EditText
+            android:id="@+id/edtLozinka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password"
+            android:textColor="@color/bela"
+            android:textColorHint="@color/bela"
+            android:textSize="20sp"
+            android:background="@drawable/rounded_corner_white"
+            android:padding="18dp"
+            android:layout_marginTop="16dp"
+            android:inputType="textPassword"
+           />
+
+        <Button
+            android:id="@+id/btnPrijava"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:textSize="20sp"
+            android:backgroundTint="@color/bela"
+            android:textColor="@color/narandzasta"
+            android:padding="18dp"
+            android:layout_marginTop="32dp"/>
+
+        <TextView
+            android:id="@+id/txtKreirajNalog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/account"
+            android:textSize="18sp"
+            android:textColor="@color/bela"
+            android:layout_marginTop="32dp"
+            android:textStyle="bold"
+            >
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtZaboravljenaLozinka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/forgot_pass"
+            android:textSize="18sp"
+            android:textColor="@color/bela"
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"
+            >
+
+        </TextView>
+
+    </LinearLayout>
+
+</RelativeLayout>

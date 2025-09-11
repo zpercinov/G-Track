@@ -1,0 +1,212 @@
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:id="@+id/main"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/login_background_hf_style"
+tools:context=".ui.main.MainActivity">
+
+
+    <!-- HEADER: LOGO  -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="16dp">
+
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/icon_account_circle_orange"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:id="@+id/txtUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="korisnik"
+            android:textColor="@color/narandzasta"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginStart="12dp"/>
+
+        <ImageButton
+            android:id="@+id/btnLogOut"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:background="@color/narandzasta"
+            android:src="@drawable/ic_logout_button"
+            tools:ignore="SpeakableTextPresentCheck" />
+    </LinearLayout>
+
+
+    <!--  FORMA za unos -->
+    <LinearLayout
+        android:id="@+id/FormZaUnos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="64dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        tools:ignore="ExtraText">
+
+        <ImageButton
+            android:id="@+id/btnQr"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:background="@color/narandzasta"
+            android:src="@drawable/ic_qr_code_scanner"
+            android:scaleType="fitCenter"
+            android:padding="20dp"
+            tools:ignore="SpeakableTextPresentCheck" />
+
+        <EditText
+            android:id="@+id/edtOznaka"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/label"
+            android:textColor="@color/bela"
+            android:textColorHint="@color/bela"
+            android:textSize="19sp"
+            android:background="@drawable/rounded_corner_white"
+            android:padding="18dp"
+            android:layout_marginTop="16dp"
+            android:inputType="text"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/save"
+            android:backgroundTint="@color/bela"
+            android:textColor="@color/narandzasta"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/ic_save_button"
+            android:layout_marginTop="16dp"
+
+
+            />
+
+
+
+        <com.google.android.material.card.MaterialCardView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
+
+            <LinearLayout
+                android:id="@+id/llUnos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tvOznaka"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:textColor="@android:color/black"/>
+
+                <TextView
+                    android:id="@+id/tvUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_name"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/holo_blue_dark"/>
+
+                <TextView
+                    android:id="@+id/tvDatum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date_label"
+                    android:textSize="12sp"
+                    android:textColor="@android:color/darker_gray"/>
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <Button
+            android:id="@+id/btnPrikaz"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
+            android:text="@string/preview"
+            android:backgroundTint="@color/bela"
+            android:textColor="@color/narandzasta"
+            android:textSize="20sp"
+            android:drawableLeft="@drawable/ic_preview_button"
+            android:layout_marginTop="16dp"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <!-- Dugme levo -->
+            <Button
+                android:id="@+id/btnIzvoz"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/export_label"
+                android:backgroundTint="@color/bela"
+                android:textColor="@color/narandzasta"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_export_button"
+                android:layout_gravity="start"
+                />
+
+            <!-- Prazan prostor koji "gura" drugo dugme desno -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Dugme desno -->
+            <Button
+                android:id="@+id/btnAttMail"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:text="@string/send_label"
+                android:backgroundTint="@color/bela"
+                android:textColor="@color/narandzasta"
+                android:textSize="20sp"
+                android:drawableLeft="@drawable/ic_attach_email_button"
+                android:layout_gravity="end"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+</RelativeLayout>

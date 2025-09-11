@@ -1,0 +1,28 @@
+package com.hemofarm.g_track.db;
+
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
+import androidx.room.Query;
+
+import java.util.List;
+@Dao
+public interface LogDao {
+
+@Insert(onConflict = OnConflictStrategy.IGNORE)
+ long insert (Log hpclLog);
+
+    @Query("SELECT COUNT(*) FROM Log_koriscenja WHERE oznaka = :oznaka")
+    int existsByOznaka(String oznaka);
+
+    @Query("SELECT * FROM Log_koriscenja ORDER BY ime_korisnika ASC, datum_unosa DESC")
+    List<Log> getAll();
+
+
+    @Query("DELETE FROM Log_koriscenja WHERE oznaka = :oznaka")
+    void deleteByOznaka(String oznaka);
+
+
+}
+
+
