@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
+import java.util.Date;
 import java.util.List;
 @Dao
 public interface LogDao {
@@ -17,6 +18,10 @@ public interface LogDao {
 
     @Query("SELECT * FROM Log_koriscenja ORDER BY ime_korisnika ASC, datum_unosa DESC")
     List<Log> getAll();
+
+
+    @Query("SELECT * FROM Log_koriscenja WHERE DATE(datum_unosa)= :datum ORDER BY ime_korisnika ASC")
+    List<Log>  getAllByDate(String datum);
 
 
     @Query("DELETE FROM Log_koriscenja WHERE oznaka = :oznaka")
