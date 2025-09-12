@@ -10,7 +10,7 @@ import java.util.List;
 @Dao
 public interface LogDao {
 
-@Insert(onConflict = OnConflictStrategy.IGNORE)
+@Insert(onConflict = OnConflictStrategy.ABORT)
  long insert (Log hpclLog);
 
     @Query("SELECT COUNT(*) FROM Log_koriscenja WHERE oznaka = :oznaka")
@@ -20,12 +20,13 @@ public interface LogDao {
     List<Log> getAll();
 
 
-    @Query("SELECT * FROM Log_koriscenja WHERE DATE(datum_unosa)= :datum ORDER BY ime_korisnika ASC")
-    List<Log>  getAllByDate(String datum);
+   @Query("SELECT * FROM Log_koriscenja WHERE datum_unosa BETWEEN :start AND :end ORDER BY ime_korisnika ASC")
+   List<Log> getAllByDate(long start, long end);
 
 
-    @Query("DELETE FROM Log_koriscenja WHERE oznaka = :oznaka")
-    void deleteByOznaka(String oznaka);
+
+    @Query("DELETE FROM Log_koriscenja WHERE id = :id")
+    void deleteById(int id);
 
 
 }

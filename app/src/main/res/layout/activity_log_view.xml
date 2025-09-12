@@ -84,7 +84,9 @@
         android:padding="12dp"
         android:gravity="center_horizontal"
         android:background="@drawable/rounded_corner_orange"
+        android:layout_marginBottom="8dp"
+        android:scrollbars="horizontal"
+        android:fadeScrollbars="false"/>
 
-        android:layout_marginBottom="8dp"/>
 
-    </LinearLayout>
+</LinearLayout>

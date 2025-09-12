@@ -6,7 +6,9 @@
     <string name="login">PRIJAVI SE</string>
     <string name="version_name">G-TRACK DEMO</string>
     <string name="account">Napravite nalog</string>
-    <string name="label">Oznaka</string>
+    <string name="labelOznaka">Oznaka</string>
+    <string name="labelOpisStavkeHint">gp/api i test</string>
+    <string name="labelOpisStavke">Opis</string>
     <string name="save">Sačuvaj</string>
     <string name="autor">Autor: Zoran Perčinov\nIT sistemi kvaliteta, 2025</string>
     <string name="Account">Upravljanje korisnicima </string>

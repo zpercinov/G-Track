@@ -2,7 +2,9 @@ package com.hemofarm.g_track.ui.main;
 
 import android.os.Bundle;
 import android.widget.CalendarView;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,9 +19,9 @@ import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Log;
 import com.hemofarm.g_track.util.Osluskivac;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.util.Calendar;
+
 import java.util.List;
 
 
@@ -30,6 +32,7 @@ public class LogViewActivity extends AppCompatActivity {
     ImageButton bIzlaz;
     CalendarView calendarView;
     private String izabraniDatum;
+    private String preuzmiPin;
 
 
     @Override
@@ -50,46 +53,97 @@ public class LogViewActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new OsluskivacKalendara(this));
 
         // Učitaj podatke iz baze
+        preuzmiPin =  AppDatabase.getInstance(this).PinDao().getPin();
+        ucitajPodatke();
 
 
-        List<Log> logovi = AppDatabase.getInstance(this).LogDao().getAll();
 
-
-        adapter = new LogAdapter(logovi);
-        recyclerLog.setAdapter(adapter);
 
         bIzlaz = findViewById(R.id.btnIzlazLog);
         bIzlaz.setOnClickListener(new Osluskivac(this));
 
     }
 
+    public void ucitajPodatke() {
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        List<Log> logovi = db.LogDao().getAll();
+        adapter = new LogAdapter(logovi);
+        recyclerLog.setAdapter(adapter);
+
+
+
+        // Postavljanje listener-a
+        adapter.setOnItemClickListener(log -> {
+            showPinDialog(log); // ime korisnika dolazi iz adaptera
+        });
+    }
+
+
+    public void showPinDialog(Log log) {
+        final EditText pinInput = new EditText(this);
+        pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
+                android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
+        pinInput.setHint("Unesite PIN");
+
+        String datumFormat = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", java.util.Locale.getDefault())
+                .format(new java.util.Date(log.datumUnosa));
+
+        new androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Potvrda brisanja")
+                .setMessage("Da li želite da obrišete stavku: " + log.oznaka + " " + log.opisStavke + " " + log.korisnik + " " + datumFormat + "? Unesite PIN da potvrdite.")
+                .setView(pinInput)
+                .setPositiveButton("Potvrdi", (dialog, which) -> {
+                    String enteredPin = pinInput.getText().toString().trim();;
+                    if (enteredPin.equals(preuzmiPin)) {
+                        AppDatabase.getInstance(LogViewActivity.this)
+                                .LogDao()
+                                .deleteById(log.id);
+                        ucitajPodatke(); // osveži RecyclerView
+                        android.widget.Toast.makeText(LogViewActivity.this,
+                                "Podaci obrisani!", android.widget.Toast.LENGTH_SHORT).show();
+                    } else {
+                        android.widget.Toast.makeText(LogViewActivity.this,
+                                "Pogrešan PIN", android.widget.Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton("Otkaži", null)
+                .show();
+    }
+
+
     class OsluskivacKalendara implements CalendarView.OnDateChangeListener {
         LogViewActivity lva;
+
         public OsluskivacKalendara(LogViewActivity lva) {
             this.lva = lva;
         }
+
         @Override
-        public void onSelectedDayChange(CalendarView view, int year, int month,
-                                        int dayOfMonth) {
+        public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            // Izračunavanje početka dana
+            Calendar cal = Calendar.getInstance();
+            cal.set(year, month, dayOfMonth, 0, 0, 0);
+            cal.set(Calendar.MILLISECOND, 0);
+            long startOfDay = cal.getTimeInMillis();
 
-            Date datumPom;
+            // Izračunavanje kraja dana
+            cal.set(year, month, dayOfMonth, 23, 59, 59);
+            cal.set(Calendar.MILLISECOND, 999);
+            long endOfDay = cal.getTimeInMillis();
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String selectedDate = sdf.format(new Date(year - 1900, month, dayOfMonth));
-            try {
-                datumPom = sdf.parse(selectedDate);
+            // filtriraj logove po datumu
+            List<Log> logovi = AppDatabase.getInstance(lva)
+                    .LogDao()
+                    .getAllByDate(startOfDay, endOfDay);
 
-                lva.izabraniDatum = sdf.format(datumPom); //konvertovanje u string
+            lva.adapter = new LogAdapter(logovi);
+            lva.recyclerLog.setAdapter(lva.adapter);
 
-                // filtriraj logove po datumu
-                List<Log> logovi = AppDatabase.getInstance(lva).LogDao().getAllByDate(lva.izabraniDatum);
-                lva.adapter = new LogAdapter(logovi);
-                lva.recyclerLog.setAdapter(lva.adapter);
-
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            // Ponovo postavi klik listener
+            lva.adapter.setOnItemClickListener(log -> {
+                lva.showPinDialog(log);
+            });
         }
     }
 }

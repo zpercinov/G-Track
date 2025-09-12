@@ -60,15 +60,15 @@ tools:context=".ui.main.MainActivity">
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:layout_below="@id/headerLayout"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         tools:ignore="ExtraText">
 
         <ImageButton
             android:id="@+id/btnQr"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:background="@color/narandzasta"
             android:src="@drawable/ic_qr_code_scanner"
             android:scaleType="fitCenter"
@@ -79,7 +79,21 @@ tools:context=".ui.main.MainActivity">
             android:id="@+id/edtOznaka"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/label"
+            android:hint="@string/labelOznaka"
+            android:textColor="@color/bela"
+            android:textColorHint="@color/bela"
+            android:textSize="19sp"
+            android:background="@drawable/rounded_corner_white"
+            android:padding="18dp"
+            android:layout_marginTop="16dp"
+            android:inputType="text"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/edtOpisStavke"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/labelOpisStavkeHint"
             android:textColor="@color/bela"
             android:textColorHint="@color/bela"
             android:textSize="19sp"
@@ -125,17 +139,23 @@ tools:context=".ui.main.MainActivity">
                     android:id="@+id/tvOznaka"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/label"
+                    android:text="@string/labelOznaka"
                     android:textStyle="bold"
                     android:textSize="18sp"
                     android:textColor="@android:color/black"/>
-
+                <TextView
+                    android:id="@+id/tvOpisStavke"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/labelOpisStavke"
+                    android:textSize="14sp"
+                    android:textColor="@android:color/black"/>
                 <TextView
                     android:id="@+id/tvUser"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/user_name"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     android:textColor="@android:color/holo_blue_dark"/>
 
                 <TextView
@@ -143,7 +163,7 @@ tools:context=".ui.main.MainActivity">
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/date_label"
-                    android:textSize="12sp"
+                    android:textSize="10sp"
                     android:textColor="@android:color/darker_gray"/>
             </LinearLayout>
 
@@ -203,8 +223,6 @@ tools:context=".ui.main.MainActivity">
 
         </LinearLayout>
     </LinearLayout>
-
-
 
 
 

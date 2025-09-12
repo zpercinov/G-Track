@@ -42,7 +42,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     public TextView tKorisnik;
-     ImageButton bLogOut;
+
+    public int lastInsertedId = -1;
+    ImageButton bLogOut;
      public EditText eOznaka;
      ImageButton bQr;
      Button bSave;
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
     public TextView tPrikazOznaka;
     public TextView tPrikazUser;
     public TextView tPrikazDatum;
+    public TextView tPrikazOpisStavke;
+
+    public EditText eOpisStavke;
      public ActivityResultLauncher<ScanOptions> barcodeLauncher;
 
     @Override
@@ -70,9 +75,12 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
+        eOpisStavke = findViewById(R.id.edtOpisStavke);
+
         tPrikazOznaka = findViewById(R.id.tvOznaka);
         tPrikazUser = findViewById(R.id.tvUser);
         tPrikazDatum = findViewById(R.id.tvDatum);
+        tPrikazOpisStavke = findViewById(R.id.tvOpisStavke);
         bAttEmail = findViewById(R.id.btnAttMail);
 
         bPrikaz = findViewById(R.id.btnPrikaz);
@@ -93,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         tKorisnik = findViewById(R.id.txtUser);
+
         bLogOut = findViewById(R.id.btnLogOut);
         eOznaka = findViewById(R.id.edtOznaka);
         bQr = findViewById(R.id.btnQr);
@@ -148,7 +157,8 @@ barcodeLauncher = registerForActivityResult(
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
                     .append(log.korisnik).append(",")
-                    .append(datumFormat)
+                    .append(datumFormat).append(",")
+                    .append(log.opisStavke)
                     .append("\n");
         }
 

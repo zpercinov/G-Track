@@ -147,7 +147,8 @@
         android:padding="12dp"
         android:gravity="center_vertical"
         android:background="@drawable/rounded_corner_orange"
-
+        android:scrollbars="horizontal"
+        android:fadeScrollbars="false"
         android:layout_marginBottom="8dp"/>
 
 

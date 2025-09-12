@@ -90,24 +90,27 @@ public class Osluskivac implements View.OnClickListener {
                 final String oznaka = ma.tPrikazOznaka.getText().toString().trim();
                 final String user = ma.tPrikazUser.getText().toString().trim();
                 final String datum = ma.tPrikazDatum.getText().toString().trim();
+                final String opisStavke = ma.tPrikazOpisStavke.getText().toString().trim();
 
                 if (!oznaka.isEmpty()) {
 
                     // prvo proveri da li postoji u bazi
-                    int count = AppDatabase.getInstance(ma).LogDao().existsByOznaka(oznaka);
-                    if (count > 0) {
+
+                    if (ma.lastInsertedId != -1) {
                         // postoji → pokaži dijalog za potvrdu brisanja
                         new AlertDialog.Builder(ma)
                                 .setTitle("Potvrda brisanja")
-                                .setMessage("Da li ste sigurni da želite da obrišete unete podatke: " + oznaka + " "+ user + " " + datum + "?")
+                                .setMessage("Da li ste sigurni da želite da obrišete unete podatke: " + oznaka + " "+ opisStavke +" "+ user + " " + datum + "?")
                                 .setPositiveButton("Da", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        AppDatabase.getInstance(ma).LogDao().deleteByOznaka(oznaka);
+                                        AppDatabase.getInstance(ma).LogDao().deleteById(ma.lastInsertedId);
                                         ma.tPrikazOznaka.setText("Oznaka");
+                                        ma.tPrikazOpisStavke.setText("Opis");
                                         ma.tPrikazUser.setText("Korisnik");
                                         ma.tPrikazDatum.setText("Datum unosa");// očisti prikaz
                                         Toast.makeText(ma, "Uneti podaci obrisani iz baze!", Toast.LENGTH_SHORT).show();
+                                        ma.lastInsertedId = -1; // reset
                                     }
                                 })
                                 .setNegativeButton("Ne", null)
@@ -137,6 +140,7 @@ public class Osluskivac implements View.OnClickListener {
             if (v.getId() == R.id.btnSave) {
                 String oznaka = ma.eOznaka.getText().toString().trim();
                 String korisnik = ma.tKorisnik.getText().toString().trim();
+                String opisStavke = ma.eOpisStavke.getText().toString().trim();
                 long datum = System.currentTimeMillis();
 
                     if (oznaka.isEmpty()) {
@@ -144,25 +148,27 @@ public class Osluskivac implements View.OnClickListener {
                     return;
                     }
 
-                Log unos = new Log(oznaka,korisnik,datum);
+                if (opisStavke.isEmpty()) {
+                    Toast.makeText(ma, "Unesite opis stavke!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                Log unos = new Log(oznaka,korisnik,datum, opisStavke);
 
                 AppDatabase db = AppDatabase.getInstance(ma);
+                long newId = db.LogDao().insert(unos); // vratiće ID unosa
 
-                long result = db.LogDao().insert(unos);
+                // čuvamo id poslednjeg unosa za brisanje
+                ma.lastInsertedId = (int)newId;
 
-                if (result == -1) {
-                    Toast.makeText(ma, "Oznaka '" + oznaka + "' je već uneta!", Toast.LENGTH_LONG).show();
-                    ToneGenerator toneGenError = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-                    toneGenError.startTone(ToneGenerator.TONE_PROP_NACK, 200); // kratki “error” beep
-                } else {
-                    ma.tPrikazOznaka.setText(oznaka);
-                    ma.tPrikazUser.setText(korisnik);
-                    ma.tPrikazDatum.setText(android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(datum)));
-
+                ma.tPrikazOznaka.setText(oznaka);
+                ma.tPrikazUser.setText(korisnik);
+                ma.tPrikazDatum.setText(android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(datum)));
+                ma.tPrikazOpisStavke.setText(opisStavke);
                     ToneGenerator toneGenOk = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                     toneGenOk.startTone(ToneGenerator.TONE_PROP_BEEP, 150); // standardni beep
                     Toast.makeText(ma, "Unos sačuvan!", Toast.LENGTH_SHORT).show();
-                }
+
 
                 // Prikaz unosa u kartici (novi unos)
 

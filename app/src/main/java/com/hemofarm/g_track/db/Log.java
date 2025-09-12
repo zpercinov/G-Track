@@ -5,8 +5,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "Log_koriscenja",
-        indices = {@Index(value = "oznaka", unique = true)}
+        tableName = "Log_koriscenja"
 )
 public class Log {
 
@@ -20,11 +19,15 @@ public class Log {
     @ColumnInfo( name = "datum_unosa")
     public long datumUnosa;
 
+    @ColumnInfo (name = "opis_stavke")
+    public String opisStavke;
 
-    public Log(String oznaka, String korisnik, long datumUnosa) {
+
+    public Log(String oznaka, String korisnik, long datumUnosa, String opisStavke) {
         this.oznaka = oznaka;
         this.korisnik = korisnik;
         this.datumUnosa = datumUnosa;
+        this.opisStavke = opisStavke;
     }
 
 

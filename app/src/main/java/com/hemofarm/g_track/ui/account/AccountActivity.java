@@ -98,6 +98,8 @@ public class AccountActivity extends AppCompatActivity {
 
         recyclerUsers = findViewById(R.id.recyclerUsers);
         recyclerUsers.setLayoutManager(new LinearLayoutManager(this));
+
+        preuzmiPin =  AppDatabase.getInstance(this).PinDao().getPin();
         ucitajKorisnike();
 
 
@@ -109,7 +111,7 @@ public class AccountActivity extends AppCompatActivity {
         List<Korisnik> lista = db.KorisnikDao().getAll();
         adapter = new UserAdapter(lista);
         recyclerUsers.setAdapter(adapter);
-        preuzmiPin = db.PinDao().getPin();
+
 
         // Postavljanje listener-a
         adapter.setOnItemClickListener(korisnikIme -> {

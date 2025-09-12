@@ -10,25 +10,31 @@
         android:id="@+id/textvOznaka"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/label"
+        android:text="@string/labelOznaka"
         android:textStyle="bold"
         android:textColor="@color/bela"
         android:textSize="16sp" />
-
+    <TextView
+        android:id="@+id/textvOpisStavke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/labelOpisStavke"
+        android:textColor="@color/bela"
+        android:textSize="14sp" />
     <TextView
         android:id="@+id/textvKorisnik"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/user_name"
         android:textColor="@color/bela"
-        android:textSize="14sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/textvDatum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date_label"
-        android:textSize="14sp"
+        android:textSize="12sp"
         android:textColor="@color/bela" />
 
 </LinearLayout>
