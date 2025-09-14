@@ -130,17 +130,24 @@ public class AccountActivity extends AppCompatActivity {
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Potvrda brisanja")
-                .setMessage("Da li želite da obrišete korisnika " + korisnik + "? Unesite PIN da potvrdite.")
+                .setMessage("Da li želite da obrišete nalog? " + korisnik + "? Unesite PIN da potvrdite.")
                 .setView(pinInput)
                 .setPositiveButton("Potvrdi", (dialog, which) -> {
                     String enteredPin = pinInput.getText().toString();
+
                     if (enteredPin.equals(preuzmiPin)) {
-                        AppDatabase.getInstance(AccountActivity.this)
+                        int korObrisan = AppDatabase.getInstance(AccountActivity.this)
                                 .KorisnikDao()
                                 .deleteByIme(korisnik);
-                        ucitajKorisnike(); // osveži RecyclerView
-                        android.widget.Toast.makeText(AccountActivity.this,
-                                "Korisnik obrisan!", android.widget.Toast.LENGTH_SHORT).show();
+
+                        if (korObrisan > 0) {
+                            ucitajKorisnike(); // osveži RecyclerView
+                            android.widget.Toast.makeText(AccountActivity.this,
+                                    "Nalog je obrisan!", android.widget.Toast.LENGTH_SHORT).show();
+                        } else {
+                            android.widget.Toast.makeText(AccountActivity.this,
+                                    "Greška - nalog nije obrisan", android.widget.Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         android.widget.Toast.makeText(AccountActivity.this,
                                 "Pogrešan PIN", android.widget.Toast.LENGTH_SHORT).show();

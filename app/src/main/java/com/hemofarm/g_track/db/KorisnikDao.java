@@ -17,7 +17,7 @@ public interface  KorisnikDao {
     Korisnik getKorisnik(String ime);
 
     @Query("DELETE FROM Korisnici WHERE ime_korisnika = :ime")
-    void deleteByIme(String ime);
+    int deleteByIme(String ime);
 
     @Query("SELECT * FROM Korisnici WHERE ime_korisnika = :ime AND lozinka = :lozinka LIMIT 1")
     Korisnik login(String ime, String lozinka);

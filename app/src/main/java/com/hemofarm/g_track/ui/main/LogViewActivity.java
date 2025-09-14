@@ -86,7 +86,7 @@ public class LogViewActivity extends AppCompatActivity {
                 android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         pinInput.setHint("Unesite PIN");
 
-        String datumFormat = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm", java.util.Locale.getDefault())
+        String datumFormat = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss", java.util.Locale.getDefault())
                 .format(new java.util.Date(log.datumUnosa));
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
@@ -101,7 +101,7 @@ public class LogViewActivity extends AppCompatActivity {
                                 .deleteById(log.id);
                         ucitajPodatke(); // osveži RecyclerView
                         android.widget.Toast.makeText(LogViewActivity.this,
-                                "Podaci obrisani!", android.widget.Toast.LENGTH_SHORT).show();
+                                "Podaci su uspešno obrisani!", android.widget.Toast.LENGTH_SHORT).show();
                     } else {
                         android.widget.Toast.makeText(LogViewActivity.this,
                                 "Pogrešan PIN", android.widget.Toast.LENGTH_SHORT).show();

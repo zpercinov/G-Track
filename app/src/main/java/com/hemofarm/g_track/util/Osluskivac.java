@@ -121,7 +121,7 @@ public class Osluskivac implements View.OnClickListener {
                     }
 
                 } else {
-                    Toast.makeText(ma, "Nema podataka za brisanje!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ma, "Greška-podaci nisu obrisani!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -143,38 +143,39 @@ public class Osluskivac implements View.OnClickListener {
                 String opisStavke = ma.eOpisStavke.getText().toString().trim();
                 long datum = System.currentTimeMillis();
 
-                    if (oznaka.isEmpty()) {
+                if (oznaka.isEmpty()) {
                     Toast.makeText(ma, "Unesite oznaku!", Toast.LENGTH_SHORT).show();
                     return;
-                    }
+                }
 
                 if (opisStavke.isEmpty()) {
                     Toast.makeText(ma, "Unesite opis stavke!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                Log unos = new Log(oznaka,korisnik,datum, opisStavke);
-
+                Log unos = new Log(oznaka, korisnik, datum, opisStavke);
                 AppDatabase db = AppDatabase.getInstance(ma);
+
                 long newId = db.LogDao().insert(unos); // vratiće ID unosa
 
-                // čuvamo id poslednjeg unosa za brisanje
-                ma.lastInsertedId = (int)newId;
+                if (newId != -1) { // uspešno sačuvan
+                    ma.lastInsertedId = (int) newId;
 
-                ma.tPrikazOznaka.setText(oznaka);
-                ma.tPrikazUser.setText(korisnik);
-                ma.tPrikazDatum.setText(android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(datum)));
-                ma.tPrikazOpisStavke.setText(opisStavke);
+                    ma.tPrikazOznaka.setText(oznaka);
+                    ma.tPrikazUser.setText(korisnik);
+                    ma.tPrikazDatum.setText(android.text.format.DateFormat.format(
+                            "dd.MM.yyyy HH:mm:ss", new Date(datum)));
+                    ma.tPrikazOpisStavke.setText(opisStavke);
+
                     ToneGenerator toneGenOk = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                     toneGenOk.startTone(ToneGenerator.TONE_PROP_BEEP, 150); // standardni beep
-                    Toast.makeText(ma, "Unos sačuvan!", Toast.LENGTH_SHORT).show();
 
-
-                // Prikaz unosa u kartici (novi unos)
-
-
-
+                    Toast.makeText(ma, "Zapis je uspešno sačuvan!", Toast.LENGTH_SHORT).show();
+                } else { // neuspešan unos
+                    Toast.makeText(ma, "Greška - zapis nije sačuvan", Toast.LENGTH_SHORT).show();
+                }
             }
+
         }
 
 
@@ -279,16 +280,16 @@ public class Osluskivac implements View.OnClickListener {
                 String mail = aa.eEmail.getText().toString().trim();
 
                 if (ime.isEmpty() || lozinka.isEmpty() || mail.isEmpty()) {
-                    Toast.makeText(aa, "Unesite ime, lozinku i eMail!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(aa, "Greška-nisu uneta sva polja!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 if (lozinka.equals(lozinkaCheck)==false) {
-                    Toast.makeText(aa, "Lozinka i potvrda lozinke se ne poklapaju!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(aa, "Greška-lozinka i potvrda lozinke se ne poklapaju!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
-                    Toast.makeText(aa, "Unesite validnu email adresu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(aa, "Greška-unesite validnu email adresu", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -298,13 +299,13 @@ public class Osluskivac implements View.OnClickListener {
 
                 long result =  db.KorisnikDao().insert(new Korisnik(ime, lozinka, mail));
                 if (result == -1) {
-                    Toast.makeText(aa, "Korisnik:  '" + ime + "' već postoji!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(aa, "Greška-korisnik:  '" + ime + "' već postoji!", Toast.LENGTH_LONG).show();
                     ToneGenerator toneGenError = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                     toneGenError.startTone(ToneGenerator.TONE_PROP_NACK, 200); // kratki “error” beep
                 }
                     else {
 
-                    Toast.makeText(aa, "Korisnik uspešno dodat!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(aa, "Nalog je uspešno kreiran!", Toast.LENGTH_SHORT).show();
 
 
                     // očisti polja

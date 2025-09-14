@@ -4,7 +4,7 @@
     <string name="password">Lozinka</string>
     <string name="password_repeat">Ponovi lozinku</string>
     <string name="login">PRIJAVI SE</string>
-    <string name="version_name">G-TRACK DEMO</string>
+    <string name="version_name">G-TRACK v1.0</string>
     <string name="account">Napravite nalog</string>
     <string name="labelOznaka">Oznaka</string>
     <string name="labelOpisStavkeHint">gp/api i test</string>

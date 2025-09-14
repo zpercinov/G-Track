@@ -49,7 +49,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         holder.tvKorisnik.setText(log.korisnik);
         holder.tvOpisStavke.setText(log.opisStavke);
 
-        String datumFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+        String datumFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
                 .format(new Date(log.datumUnosa));
         holder.tvDatum.setText(datumFormat);
 

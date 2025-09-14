@@ -176,21 +176,21 @@ barcodeLauncher = registerForActivityResult(
 
                 Uri uri = context.getContentResolver().insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values);
 
-                if (uri != null) {
-                    OutputStream os = context.getContentResolver().openOutputStream(uri);
-                    os.write(data.toString().getBytes());
-                    os.close();
-                    Toast.makeText(context, "Izvezeno u Downloads folder!", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(context, "Greška pri kreiranju fajla!", Toast.LENGTH_SHORT).show();
-                }
+                    if (uri != null) {
+                        OutputStream os = context.getContentResolver().openOutputStream(uri);
+                        os.write(data.toString().getBytes());
+                        os.close();
+                        Toast.makeText(context, "Izvezeno u Downloads folder!", Toast.LENGTH_LONG).show();
+                            } else {
+                                    Toast.makeText(context, "Greška pri kreiranju fajla!", Toast.LENGTH_SHORT).show();
+                                    }
             } else {
                 Toast.makeText(context, "Ova funkcija radi samo na Android 10+", Toast.LENGTH_SHORT).show();
             }
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Greška prilikom izvoza!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Greška- izvoz nije uspeo!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -201,7 +201,7 @@ barcodeLauncher = registerForActivityResult(
         List<Log> sviLogovi = db.LogDao().getAll();
 
         if (sviLogovi.isEmpty()) {
-            Toast.makeText(context, "Nema podataka za slanje", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Nema podataka za slanje.", Toast.LENGTH_SHORT).show();
             return;
         }
 

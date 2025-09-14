@@ -61,7 +61,7 @@ public class AsinhroniZadatak extends AsyncTask<String, Void, String> {
         if ("uspeh".equals(result)) {
             Toast.makeText(context, "Email je uspešno poslat na: "+getRecipient() , Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(context, "Greška prilikom slanja mejla!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Greška-slanje nije uspelo!", Toast.LENGTH_SHORT).show();
         }
     }
 }
