@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hemofarm.g_track.R;
-import com.hemofarm.g_track.db.Log;
+import com.hemofarm.g_track.db.Zapis;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,18 +19,18 @@ import java.util.Locale;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
-    private List<Log> logovi;
+    private List<Zapis> logovi;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(Log log);
+        void onItemClick(Zapis log);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
 
-    public LogAdapter(List<Log> logovi) {
+    public LogAdapter(List<Zapis> logovi) {
         this.logovi = logovi;
     }
 
@@ -44,7 +44,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
-        Log log = logovi.get(position);
+        Zapis log = logovi.get(position);
         holder.tvOznaka.setText(log.oznaka);
         holder.tvKorisnik.setText(log.korisnik);
         holder.tvOpisStavke.setText(log.opisStavke);

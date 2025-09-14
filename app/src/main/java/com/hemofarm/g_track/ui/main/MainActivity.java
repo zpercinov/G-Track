@@ -24,7 +24,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.hemofarm.g_track.R;
 import com.hemofarm.g_track.db.AppDatabase;
-import com.hemofarm.g_track.db.Log;
+import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.ui.account.AccountActivity;
 import com.hemofarm.g_track.ui.login.mail.AsinhroniZadatak;
 import com.hemofarm.g_track.util.Osluskivac;
@@ -142,7 +142,7 @@ barcodeLauncher = registerForActivityResult(
     public void izveziLogoveUCSV(Context context) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Log> sviLogovi = db.LogDao().getAll();
+        List<Zapis> sviLogovi = db.LogDao().dohvatiSve();
 
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za izvoz", Toast.LENGTH_SHORT).show();
@@ -153,7 +153,7 @@ barcodeLauncher = registerForActivityResult(
         StringBuilder data = new StringBuilder();
         data.append("Oznaka,Korisnik,Datum\n"); // header
 
-        for (Log log : sviLogovi) {
+        for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
                     .append(log.korisnik).append(",")
@@ -198,7 +198,7 @@ barcodeLauncher = registerForActivityResult(
     public void posaljiLogove(Context context, String recipient, String sender) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Log> sviLogovi = db.LogDao().getAll();
+        List<Zapis> sviLogovi = db.LogDao().dohvatiSve();
 
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za slanje.", Toast.LENGTH_SHORT).show();
@@ -209,7 +209,7 @@ barcodeLauncher = registerForActivityResult(
         StringBuilder data = new StringBuilder();
         data.append("Oznaka,Korisnik,Datum\n"); // header
 
-        for (Log log : sviLogovi) {
+        for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
                     .append(log.korisnik).append(",")

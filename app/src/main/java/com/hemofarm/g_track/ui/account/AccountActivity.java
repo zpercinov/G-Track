@@ -99,7 +99,7 @@ public class AccountActivity extends AppCompatActivity {
         recyclerUsers = findViewById(R.id.recyclerUsers);
         recyclerUsers.setLayoutManager(new LinearLayoutManager(this));
 
-        preuzmiPin =  AppDatabase.getInstance(this).PinDao().getPin();
+        preuzmiPin =  AppDatabase.getInstance(this).PinDao().dohvatiPin();
         ucitajKorisnike();
 
 
@@ -108,37 +108,37 @@ public class AccountActivity extends AppCompatActivity {
 
     public void ucitajKorisnike() {
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Korisnik> lista = db.KorisnikDao().getAll();
+        List<Korisnik> lista = db.KorisnikDao().dohvatiSve();
         adapter = new UserAdapter(lista);
         recyclerUsers.setAdapter(adapter);
 
 
         // Postavljanje listener-a
         adapter.setOnItemClickListener(korisnikIme -> {
-            showPinDialog(korisnikIme); // ime korisnika dolazi iz adaptera
+            DohvatiPrikaziPinDialog(korisnikIme); // ime korisnika dolazi iz adaptera
         });
         }
 
 
 
 
-    public void showPinDialog(String korisnik) {
-        final EditText pinInput = new EditText(this);
-        pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
+    public void DohvatiPrikaziPinDialog(String korisnik) {
+        final EditText pinDohvatiUnos = new EditText(this);
+        pinDohvatiUnos.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
                 android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-        pinInput.setHint("Unesite PIN");
+        pinDohvatiUnos.setHint("Unesite PIN");
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Potvrda brisanja")
                 .setMessage("Da li želite da obrišete nalog? " + korisnik + "? Unesite PIN da potvrdite.")
-                .setView(pinInput)
+                .setView(pinDohvatiUnos)
                 .setPositiveButton("Potvrdi", (dialog, which) -> {
-                    String enteredPin = pinInput.getText().toString();
+                    String enteredPin = pinDohvatiUnos.getText().toString();
 
                     if (enteredPin.equals(preuzmiPin)) {
                         int korObrisan = AppDatabase.getInstance(AccountActivity.this)
                                 .KorisnikDao()
-                                .deleteByIme(korisnik);
+                                .BrisanjeNalogaPoImenu(korisnik);
 
                         if (korObrisan > 0) {
                             ucitajKorisnike(); // osveži RecyclerView

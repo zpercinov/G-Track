@@ -11,19 +11,19 @@ public interface  KorisnikDao {
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    long insert (Korisnik korisnik);
+    long KreirajNalog (Korisnik korisnik);
 
     @Query("SELECT * FROM Korisnici WHERE ime_korisnika = :ime")
-    Korisnik getKorisnik(String ime);
+    Korisnik dohvatiKorisnika(String ime);
 
     @Query("DELETE FROM Korisnici WHERE ime_korisnika = :ime")
-    int deleteByIme(String ime);
+    int BrisanjeNalogaPoImenu(String ime);
 
     @Query("SELECT * FROM Korisnici WHERE ime_korisnika = :ime AND lozinka = :lozinka LIMIT 1")
     Korisnik login(String ime, String lozinka);
 
     @Query("SELECT * FROM Korisnici ORDER BY ime_korisnika ASC")
-    List<Korisnik> getAll();
+    List<Korisnik> dohvatiSve();
 
     @Query("SELECT COUNT(*) FROM Korisnici WHERE ime_korisnika = :ime")
     int existsByIme(String ime);

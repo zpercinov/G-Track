@@ -10,12 +10,12 @@ import androidx.room.Query;
 public interface PinDao {
 
     @Query("SELECT vrednost FROM Pin WHERE id = 1")
-    String getPin();
+    String dohvatiPin();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPin(Pin pin);
+    void unesiPin(Pin pin);
 
     @Query("UPDATE Pin SET vrednost = :noviPin WHERE id = 1")
-    void updatePin(String noviPin);
+    void azurirajPin(String noviPin);
 
 }

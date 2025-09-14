@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hemofarm.g_track.R;
 import com.hemofarm.g_track.db.AppDatabase;
-import com.hemofarm.g_track.db.Log;
+import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.util.Osluskivac;
 
 
@@ -53,7 +53,7 @@ public class LogViewActivity extends AppCompatActivity {
         calendarView.setOnDateChangeListener(new OsluskivacKalendara(this));
 
         // Učitaj podatke iz baze
-        preuzmiPin =  AppDatabase.getInstance(this).PinDao().getPin();
+        preuzmiPin =  AppDatabase.getInstance(this).PinDao().dohvatiPin();
         ucitajPodatke();
 
 
@@ -67,7 +67,7 @@ public class LogViewActivity extends AppCompatActivity {
     public void ucitajPodatke() {
 
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Log> logovi = db.LogDao().getAll();
+        List<Zapis> logovi = db.LogDao().dohvatiSve();
         adapter = new LogAdapter(logovi);
         recyclerLog.setAdapter(adapter);
 
@@ -80,7 +80,7 @@ public class LogViewActivity extends AppCompatActivity {
     }
 
 
-    public void showPinDialog(Log log) {
+    public void showPinDialog(Zapis log) {
         final EditText pinInput = new EditText(this);
         pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
                 android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
@@ -98,7 +98,7 @@ public class LogViewActivity extends AppCompatActivity {
                     if (enteredPin.equals(preuzmiPin)) {
                         AppDatabase.getInstance(LogViewActivity.this)
                                 .LogDao()
-                                .deleteById(log.id);
+                                .obrisiPoId(log.id);
                         ucitajPodatke(); // osveži RecyclerView
                         android.widget.Toast.makeText(LogViewActivity.this,
                                 "Podaci su uspešno obrisani!", android.widget.Toast.LENGTH_SHORT).show();
@@ -133,9 +133,9 @@ public class LogViewActivity extends AppCompatActivity {
             long endOfDay = cal.getTimeInMillis();
 
             // filtriraj logove po datumu
-            List<Log> logovi = AppDatabase.getInstance(lva)
+            List<Zapis> logovi = AppDatabase.getInstance(lva)
                     .LogDao()
-                    .getAllByDate(startOfDay, endOfDay);
+                    .dohvatiSvePoDatumu(startOfDay, endOfDay);
 
             lva.adapter = new LogAdapter(logovi);
             lva.recyclerLog.setAdapter(lva.adapter);

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Korisnik;
-import com.hemofarm.g_track.db.Log;
+import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.ui.account.AccountActivity;
 import com.hemofarm.g_track.ui.login.LoginActivity;
 import com.hemofarm.g_track.ui.login.mail.AsinhroniZadatak;
@@ -55,7 +55,7 @@ public class Osluskivac implements View.OnClickListener {
 
                 String ime = ma.tKorisnik.getText().toString();
                 AppDatabase db = AppDatabase.getInstance(ma);
-                Korisnik k = db.KorisnikDao().getKorisnik(ime);
+                Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
 
                 ma.posaljiLogove(ma, k.getEmail(), LoginActivity.sender);
 
@@ -104,7 +104,7 @@ public class Osluskivac implements View.OnClickListener {
                                 .setPositiveButton("Da", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        AppDatabase.getInstance(ma).LogDao().deleteById(ma.lastInsertedId);
+                                        AppDatabase.getInstance(ma).LogDao().obrisiPoId(ma.lastInsertedId);
                                         ma.tPrikazOznaka.setText("Oznaka");
                                         ma.tPrikazOpisStavke.setText("Opis");
                                         ma.tPrikazUser.setText("Korisnik");
@@ -153,10 +153,10 @@ public class Osluskivac implements View.OnClickListener {
                     return;
                 }
 
-                Log unos = new Log(oznaka, korisnik, datum, opisStavke);
+                Zapis unos = new Zapis(oznaka, korisnik, datum, opisStavke);
                 AppDatabase db = AppDatabase.getInstance(ma);
 
-                long newId = db.LogDao().insert(unos); // vratiće ID unosa
+                long newId = db.LogDao().unosZapisa(unos); // vratiće ID unosa
 
                 if (newId != -1) { // uspešno sačuvan
                     ma.lastInsertedId = (int) newId;
@@ -198,7 +198,7 @@ public class Osluskivac implements View.OnClickListener {
                     @Override
                     public void run() {
                         AppDatabase db = AppDatabase.getInstance(la);
-                        Korisnik k = db.KorisnikDao().getKorisnik(ime);
+                        Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
 
                         if (k != null) {
 
@@ -297,7 +297,7 @@ public class Osluskivac implements View.OnClickListener {
                 AppDatabase db = AppDatabase.getInstance(aa);
 
 
-                long result =  db.KorisnikDao().insert(new Korisnik(ime, lozinka, mail));
+                long result =  db.KorisnikDao().KreirajNalog(new Korisnik(ime, lozinka, mail));
                 if (result == -1) {
                     Toast.makeText(aa, "Greška-korisnik:  '" + ime + "' već postoji!", Toast.LENGTH_LONG).show();
                     ToneGenerator toneGenError = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
