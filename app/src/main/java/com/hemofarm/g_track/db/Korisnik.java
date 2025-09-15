@@ -5,11 +5,11 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 
-@Entity(tableName = "Korisnici",
+@Entity(tableName = "Korisnik",
  indices = {@Index(value = "ime_korisnika", unique = true)})
 public class Korisnik {
     @PrimaryKey(autoGenerate = true)
-    public int idKorisnika;
+    public int KorisnikID;
 
     @ColumnInfo ( name = "ime_korisnika")
     public String ime;

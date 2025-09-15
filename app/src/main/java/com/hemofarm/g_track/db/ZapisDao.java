@@ -10,20 +10,20 @@ import java.util.List;
 public interface ZapisDao {
 
 @Insert(onConflict = OnConflictStrategy.ABORT)
- long unosZapisa (Zapis hpclLog);
+ long unosZapisa (Zapis zapis);
 
 
 
-    @Query("SELECT * FROM Zapis_koriscenja ORDER BY ime_korisnika ASC, datum_unosa DESC")
-    List<Zapis> dohvatiSve();
+    @Query("SELECT * FROM Zapis ORDER BY ime_korisnika ASC, datum_unosa DESC")
+    List<Zapis> dohvatiSveZapise();
 
 
-   @Query("SELECT * FROM Zapis_koriscenja WHERE datum_unosa BETWEEN :start AND :end ORDER BY ime_korisnika ASC")
+   @Query("SELECT * FROM Zapis WHERE datum_unosa BETWEEN :start AND :end ORDER BY ime_korisnika ASC")
    List<Zapis> dohvatiSvePoDatumu(long start, long end);
 
 
 
-    @Query("DELETE FROM Zapis_koriscenja WHERE id = :id")
+    @Query("DELETE FROM Zapis WHERE ZapisID = :id")
     void obrisiPoId(int id);
 
 

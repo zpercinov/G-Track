@@ -4,12 +4,12 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(
-        tableName = "Zapis_koriscenja"
+        tableName = "Zapis"
 )
 public class Zapis {
 
     @PrimaryKey(autoGenerate = true)
-    public int id;
+    public int ZapisID;
     @ColumnInfo( name = "oznaka")
     public String oznaka;
 

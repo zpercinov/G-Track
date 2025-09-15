@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
     public TextView tKorisnik;
 
-    public int lastInsertedId = -1;
+    public int idPoslednjegZapisa = -1;
     ImageButton bLogOut;
      public EditText eOznaka;
      ImageButton bQr;
@@ -139,10 +139,10 @@ barcodeLauncher = registerForActivityResult(
         */
 
     }
-    public void izveziLogoveUCSV(Context context) {
+    public void izveziZapiseUCSV(Context context) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Zapis> sviLogovi = db.LogDao().dohvatiSve();
+        List<Zapis> sviLogovi = db.ZapisDao().dohvatiSveZapise();
 
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za izvoz", Toast.LENGTH_SHORT).show();
@@ -195,10 +195,10 @@ barcodeLauncher = registerForActivityResult(
     }
 
 
-    public void posaljiLogove(Context context, String recipient, String sender) {
+    public void posaljiZapise(Context context, String recipient, String sender) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Zapis> sviLogovi = db.LogDao().dohvatiSve();
+        List<Zapis> sviLogovi = db.ZapisDao().dohvatiSveZapise();
 
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za slanje.", Toast.LENGTH_SHORT).show();

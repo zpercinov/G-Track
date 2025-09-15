@@ -54,7 +54,7 @@ public class LogViewActivity extends AppCompatActivity {
 
         // Učitaj podatke iz baze
         preuzmiPin =  AppDatabase.getInstance(this).PinDao().dohvatiPin();
-        ucitajPodatke();
+        PrikaziPodatke();
 
 
 
@@ -64,10 +64,10 @@ public class LogViewActivity extends AppCompatActivity {
 
     }
 
-    public void ucitajPodatke() {
+    public void PrikaziPodatke() {
 
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Zapis> logovi = db.LogDao().dohvatiSve();
+        List<Zapis> logovi = db.ZapisDao().dohvatiSveZapise();
         adapter = new LogAdapter(logovi);
         recyclerLog.setAdapter(adapter);
 
@@ -97,9 +97,9 @@ public class LogViewActivity extends AppCompatActivity {
                     String enteredPin = pinInput.getText().toString().trim();;
                     if (enteredPin.equals(preuzmiPin)) {
                         AppDatabase.getInstance(LogViewActivity.this)
-                                .LogDao()
-                                .obrisiPoId(log.id);
-                        ucitajPodatke(); // osveži RecyclerView
+                                .ZapisDao()
+                                .obrisiPoId(log.ZapisID);
+                        PrikaziPodatke(); // osveži RecyclerView
                         android.widget.Toast.makeText(LogViewActivity.this,
                                 "Podaci su uspešno obrisani!", android.widget.Toast.LENGTH_SHORT).show();
                     } else {
@@ -134,7 +134,7 @@ public class LogViewActivity extends AppCompatActivity {
 
             // filtriraj logove po datumu
             List<Zapis> logovi = AppDatabase.getInstance(lva)
-                    .LogDao()
+                    .ZapisDao()
                     .dohvatiSvePoDatumu(startOfDay, endOfDay);
 
             lva.adapter = new LogAdapter(logovi);

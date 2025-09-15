@@ -107,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Učitavanje korisnika iz baze
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Korisnik> listaKorisnika = db.KorisnikDao().dohvatiSve(); // pretpostavljamo da vraća List<Korisnik>
+        List<Korisnik> listaKorisnika = db.KorisnikDao().dohvatiSveKorisnike(); // pretpostavljamo da vraća List<Korisnik>
         for (Korisnik k : listaKorisnika) {
             korisnici.add(k.getIme()); // dodaje ime korisnika u listu
         }

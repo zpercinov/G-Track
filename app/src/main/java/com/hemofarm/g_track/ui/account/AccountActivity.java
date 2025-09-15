@@ -108,7 +108,7 @@ public class AccountActivity extends AppCompatActivity {
 
     public void ucitajKorisnike() {
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Korisnik> lista = db.KorisnikDao().dohvatiSve();
+        List<Korisnik> lista = db.KorisnikDao().dohvatiSveKorisnike();
         adapter = new UserAdapter(lista);
         recyclerUsers.setAdapter(adapter);
 
@@ -138,7 +138,7 @@ public class AccountActivity extends AppCompatActivity {
                     if (enteredPin.equals(preuzmiPin)) {
                         int korObrisan = AppDatabase.getInstance(AccountActivity.this)
                                 .KorisnikDao()
-                                .BrisanjeNalogaPoImenu(korisnik);
+                                .brisanjeNalogaPoImenu(korisnik);
 
                         if (korObrisan > 0) {
                             ucitajKorisnike(); // osveži RecyclerView

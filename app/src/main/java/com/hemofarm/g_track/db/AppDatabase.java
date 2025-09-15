@@ -7,13 +7,13 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Korisnik.class, Zapis.class, Pin.class}, version = 4)
+@Database(entities = {Korisnik.class, Zapis.class, Pin.class}, version = 2)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
 
     public abstract KorisnikDao KorisnikDao();
-    public abstract ZapisDao LogDao();
+    public abstract ZapisDao ZapisDao();
     public abstract PinDao PinDao();
 
     public static synchronized AppDatabase getInstance(Context context) {

@@ -21,6 +21,8 @@ import com.hemofarm.g_track.ui.main.MainActivity;
 import com.hemofarm.g_track.R;
 import com.journeyapps.barcodescanner.ScanOptions;
 import java.util.Date;
+import java.util.List;
+
 public class Osluskivac implements View.OnClickListener {
     private MainActivity ma;
     private LoginActivity la;
@@ -57,7 +59,7 @@ public class Osluskivac implements View.OnClickListener {
                 AppDatabase db = AppDatabase.getInstance(ma);
                 Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
 
-                ma.posaljiLogove(ma, k.getEmail(), LoginActivity.sender);
+                ma.posaljiZapise(ma, k.getEmail(), LoginActivity.sender);
 
             }
 
@@ -71,16 +73,23 @@ public class Osluskivac implements View.OnClickListener {
 
 
             if (v.getId() == R.id.btnIzvoz) {
-                ma.izveziLogoveUCSV(ma);
+                ma.izveziZapiseUCSV(ma);
 
             }
 
 
             if (v.getId() == R.id.btnPrikaz)  {
 
-                ma.OtvoriViewFormu();
-
-
+                new Thread(() -> {
+                    AppDatabase db = AppDatabase.getInstance(ma);
+                    List<Zapis> listaZapisa = db.ZapisDao().dohvatiSveZapise();
+                    ma.runOnUiThread(() -> {
+                        if (listaZapisa != null && !listaZapisa.isEmpty())
+                            ma.OtvoriViewFormu();
+                        else
+                            Toast.makeText(ma, "Nema podataka za prikaz", Toast.LENGTH_SHORT).show();
+                    });
+                }).start();
             }
 
 
@@ -96,7 +105,7 @@ public class Osluskivac implements View.OnClickListener {
 
                     // prvo proveri da li postoji u bazi
 
-                    if (ma.lastInsertedId != -1) {
+                    if (ma.idPoslednjegZapisa != -1) {
                         // postoji → pokaži dijalog za potvrdu brisanja
                         new AlertDialog.Builder(ma)
                                 .setTitle("Potvrda brisanja")
@@ -104,13 +113,13 @@ public class Osluskivac implements View.OnClickListener {
                                 .setPositiveButton("Da", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
-                                        AppDatabase.getInstance(ma).LogDao().obrisiPoId(ma.lastInsertedId);
+                                        AppDatabase.getInstance(ma).ZapisDao().obrisiPoId(ma.idPoslednjegZapisa);
                                         ma.tPrikazOznaka.setText("Oznaka");
                                         ma.tPrikazOpisStavke.setText("Opis");
                                         ma.tPrikazUser.setText("Korisnik");
                                         ma.tPrikazDatum.setText("Datum unosa");// očisti prikaz
-                                        Toast.makeText(ma, "Uneti podaci obrisani iz baze!", Toast.LENGTH_SHORT).show();
-                                        ma.lastInsertedId = -1; // reset
+                                        Toast.makeText(ma, "Poslednji uneti podaci su obrisani iz baze!", Toast.LENGTH_SHORT).show();
+                                        ma.idPoslednjegZapisa = -1; // reset
                                     }
                                 })
                                 .setNegativeButton("Ne", null)
@@ -156,10 +165,10 @@ public class Osluskivac implements View.OnClickListener {
                 Zapis unos = new Zapis(oznaka, korisnik, datum, opisStavke);
                 AppDatabase db = AppDatabase.getInstance(ma);
 
-                long newId = db.LogDao().unosZapisa(unos); // vratiće ID unosa
+                long noviId = db.ZapisDao().unosZapisa(unos); // vratiće ID unosa
 
-                if (newId != -1) { // uspešno sačuvan
-                    ma.lastInsertedId = (int) newId;
+                if (noviId != -1) { // uspešno sačuvan
+                    ma.idPoslednjegZapisa = (int) noviId;
 
                     ma.tPrikazOznaka.setText(oznaka);
                     ma.tPrikazUser.setText(korisnik);
@@ -297,7 +306,7 @@ public class Osluskivac implements View.OnClickListener {
                 AppDatabase db = AppDatabase.getInstance(aa);
 
 
-                long result =  db.KorisnikDao().KreirajNalog(new Korisnik(ime, lozinka, mail));
+                long result =  db.KorisnikDao().kreirajNalog(new Korisnik(ime, lozinka, mail));
                 if (result == -1) {
                     Toast.makeText(aa, "Greška-korisnik:  '" + ime + "' već postoji!", Toast.LENGTH_LONG).show();
                     ToneGenerator toneGenError = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
