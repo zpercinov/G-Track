@@ -28,4 +28,6 @@ public interface  KorisnikDao {
     @Query("SELECT COUNT(*) FROM Korisnik WHERE ime_korisnika = :ime")
     int existsByIme(String ime);
 
+
+
 }

@@ -1,0 +1,29 @@
+<resources>
+
+    <!-- Glavni stil aplikacije -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Ovde možeš dodavati globalne boje i fontove -->
+    </style>
+
+    <!-- Dani u nedelji (Mon, Tue...) -->
+    <style name="CalendarWeekText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/bela</item>
+    </style>
+
+    <!-- Datumi (brojevi) -->
+    <style name="CalendarDateText" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@color/bela</item>
+    </style>
+
+    <!-- CalendarView -->
+    <style name="CalendarViewCustom" parent="@android:style/Widget.CalendarView">
+        <item name="android:weekDayTextAppearance">@style/CalendarWeekText</item>
+        <item name="android:dateTextAppearance">@style/CalendarDateText</item>
+        <item name="android:focusedMonthDateColor">@color/bela</item>          <!-- trenutni mesec -->
+        <item name="android:unfocusedMonthDateColor">@color/siva</item>        <!-- datumi van meseca -->
+        <item name="android:selectedWeekBackgroundColor">@color/narandzastaButton</item>        <!-- svetlija narandžasta -->
+        <item name="android:weekSeparatorLineColor">@color/crna</item>         <!-- linija nedelja -->
+        <item name="android:background">@color/zuta</item>                        <!-- narandžasta pozadina -->
+    </style>
+
+</resources>

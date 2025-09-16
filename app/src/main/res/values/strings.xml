@@ -20,6 +20,7 @@
     <string name="export_label">Izvezi</string>
     <string name="log_label">Pregled evidencije</string>
     <string name="send_label">Pošalji</string>
+    <string name="brojac">Ukupno: 0</string>
 
 
 

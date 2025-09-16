@@ -26,6 +26,14 @@ public interface ZapisDao {
     @Query("DELETE FROM Zapis WHERE ZapisID = :id")
     void obrisiPoId(int id);
 
+    @Query("SELECT COUNT(*) FROM Zapis")
+    long dohvatiBrojUnosa();
+
+
+    @Query("SELECT COUNT(*) FROM Zapis WHERE datum_unosa BETWEEN :start AND :end")
+    long dohvatiBrojUnosaNaDan(long start, long end);
+
+
 
 }
 

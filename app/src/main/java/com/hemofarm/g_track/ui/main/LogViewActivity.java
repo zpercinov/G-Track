@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -23,6 +24,7 @@ import com.hemofarm.g_track.util.Osluskivac;
 import java.util.Calendar;
 
 import java.util.List;
+import java.util.concurrent.Executors;
 
 
 public class LogViewActivity extends AppCompatActivity {
@@ -31,8 +33,10 @@ public class LogViewActivity extends AppCompatActivity {
     LogAdapter adapter;
     ImageButton bIzlaz;
     CalendarView calendarView;
-    private String izabraniDatum;
+
     private String preuzmiPin;
+    TextView lBrojac;
+
 
 
     @Override
@@ -40,29 +44,68 @@ public class LogViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_log_view);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.log_view), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // 🔹 inicijalizacija svih view-ova
+        lBrojac = findViewById(R.id.tvBrojac);
         recyclerLog = findViewById(R.id.recyclerLog);
         recyclerLog.setLayoutManager(new LinearLayoutManager(this));
         calendarView = findViewById(R.id.calendarView);
+        bIzlaz = findViewById(R.id.btnIzlazLog);
 
-        calendarView.setOnDateChangeListener(new OsluskivacKalendara(this));
-
-        // Učitaj podatke iz baze
-        preuzmiPin =  AppDatabase.getInstance(this).PinDao().dohvatiPin();
+        // 🔹 prvo prikaži ukupni brojač i sve zapise
+        prikaziBrojac(null, null);
         PrikaziPodatke();
 
+        // 🔹 PIN iz baze
+        preuzmiPin = AppDatabase.getInstance(this).PinDao().dohvatiPin();
 
-
-
-        bIzlaz = findViewById(R.id.btnIzlazLog);
+        // 🔹 klik na izlaz dugme
         bIzlaz.setOnClickListener(new Osluskivac(this));
 
+        // 🔹 kalendar – kada se promeni datum
+        calendarView.setOnDateChangeListener(new OsluskivacKalendara(this));
     }
+
+
+
+
+    private void prikaziBrojac(final Long startOfDay, final Long endOfDay) {
+        AppDatabase db = AppDatabase.getInstance(LogViewActivity.this);
+
+        Executors.newSingleThreadExecutor().execute(new Runnable() {
+            @Override
+            public void run() {
+                final long brojac;
+
+                if (startOfDay == null || endOfDay == null) {
+                    brojac = db.ZapisDao().dohvatiBrojUnosa(); // ukupno
+                } else {
+                    brojac = db.ZapisDao().dohvatiBrojUnosaNaDan(startOfDay, endOfDay); // za odabrani dan
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (startOfDay == null || endOfDay == null) {
+                            lBrojac.setText("Ukupno: " + brojac);
+                        } else {
+                            lBrojac.setText("Na izabrani dan: " + brojac);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+
+
 
     public void PrikaziPodatke() {
 
@@ -132,7 +175,7 @@ public class LogViewActivity extends AppCompatActivity {
             cal.set(Calendar.MILLISECOND, 999);
             long endOfDay = cal.getTimeInMillis();
 
-            // filtriraj logove po datumu
+            // 🔹 filtriraj logove po datumu
             List<Zapis> logovi = AppDatabase.getInstance(lva)
                     .ZapisDao()
                     .dohvatiSvePoDatumu(startOfDay, endOfDay);
@@ -140,10 +183,15 @@ public class LogViewActivity extends AppCompatActivity {
             lva.adapter = new LogAdapter(logovi);
             lva.recyclerLog.setAdapter(lva.adapter);
 
-            // Ponovo postavi klik listener
+            // 🔹 osveži brojač
+            lva.prikaziBrojac(startOfDay, endOfDay);
+
+            // 🔹 ponovo postavi klik listener
             lva.adapter.setOnItemClickListener(log -> {
                 lva.showPinDialog(log);
             });
         }
+
+
     }
 }

@@ -7,7 +7,8 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:background="@drawable/login_background_hf_style"
-    tools:context=".ui.main.LogViewActivity">
+    tools:context=".ui.main.LogViewActivity"
+    tools:ignore="ExtraText">
 
 
     <!-- HEADER -->
@@ -66,14 +67,32 @@
     <!-- CalendarView za pretragu po datumu -->
     <CalendarView
         android:id="@+id/calendarView"
+        style="@style/CalendarViewCustom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_corner_orange"
-        />
+        android:background="@drawable/rounded_corner_orange"/>
 
+
+
+
+    <TextView
+        android:id="@+id/tvBrojac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/brojac"
+        android:textColor="@color/bela"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="8dp"/>
     <!-- LISTA podataka -->
+
 
 
     <androidx.recyclerview.widget.RecyclerView
