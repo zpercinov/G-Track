@@ -1,9 +1,12 @@
 package com.hemofarm.g_track.ui.account;
 
 import android.annotation.SuppressLint;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +14,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -156,5 +160,51 @@ public class AccountActivity extends AppCompatActivity {
                 .setNegativeButton("Otkaži", null)
                 .show();
     }
+
+
+    public void kreirajNalog() {
+        String ime = eKorIme.getText().toString().trim();
+        String lozinka = eLozinka.getText().toString().trim();
+        String lozinkaCheck = eLozinkaCheck.getText().toString().trim();
+        String mail = eEmail.getText().toString().trim();
+
+        // Provera obaveznih polja
+        if (ime.isEmpty() || lozinka.isEmpty() || mail.isEmpty()) {
+            Toast.makeText(this, "Greška - nisu uneta sva polja!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Provera poklapanja lozinke
+        if (!lozinka.equals(lozinkaCheck)) {
+            Toast.makeText(this, "Greška - lozinka i potvrda lozinke se ne poklapaju!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Validacija email adrese
+        if (!Patterns.EMAIL_ADDRESS.matcher(mail).matches()) {
+            Toast.makeText(this, "Greška - unesite validnu email adresu", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Provera i kreiranje naloga u bazi
+        AppDatabase db = AppDatabase.getInstance(this);
+        long result = db.KorisnikDao().kreirajNalog(new Korisnik(ime, lozinka, mail));
+
+        if (result == -1) { // Korisnik već postoji
+            Toast.makeText(this, "Greška - korisnik: '" + ime + "' već postoji!", Toast.LENGTH_LONG).show();
+            ToneGenerator toneGenError = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+            toneGenError.startTone(ToneGenerator.TONE_PROP_NACK, 200); // kratki error beep
+        } else { // Uspešno kreiran nalog
+            Toast.makeText(this, "Nalog je uspešno kreiran!", Toast.LENGTH_SHORT).show();
+
+            // Očisti polja
+            eKorIme.setText("");
+            eLozinka.setText("");
+            eEmail.setText("");
+            eLozinkaCheck.setText("");
+            ucitajKorisnike();
+        }
+    }
+
 
 }

@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
     private List<Zapis> logovi;
@@ -78,4 +77,3 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         }
     }
 }
-

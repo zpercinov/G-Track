@@ -22,8 +22,14 @@
         <item name="android:focusedMonthDateColor">@color/bela</item>          <!-- trenutni mesec -->
         <item name="android:unfocusedMonthDateColor">@color/siva</item>        <!-- datumi van meseca -->
         <item name="android:selectedWeekBackgroundColor">@color/narandzastaButton</item>        <!-- svetlija narandžasta -->
-        <item name="android:weekSeparatorLineColor">@color/crna</item>         <!-- linija nedelja -->
+        <item name="android:weekSeparatorLineColor">@color/crna</item><!-- linija nedelja -->
+
         <item name="android:background">@color/zuta</item>                        <!-- narandžasta pozadina -->
+    </style>
+
+    <style name="MyTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>

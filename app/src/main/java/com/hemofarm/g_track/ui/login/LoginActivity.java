@@ -1,5 +1,6 @@
 package com.hemofarm.g_track.ui.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.hemofarm.g_track.R;
 import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Korisnik;
+import com.hemofarm.g_track.ui.login.mail.AsinhroniZadatak;
 import com.hemofarm.g_track.ui.main.MainActivity;
 import com.hemofarm.g_track.ui.account.AccountActivity;
 import com.hemofarm.g_track.util.Osluskivac;
@@ -135,6 +138,65 @@ public class LoginActivity extends AppCompatActivity {
 
         adapter.setDropDownViewResource(R.layout.spinner_items);
         korIme.setAdapter(adapter);
+    }
+
+    public void obradiZaboravljenuLozinku() {
+        String imeTemp = "";
+        if (korIme.getSelectedItem() != null) {
+            imeTemp = korIme.getSelectedItem().toString();
+        }
+
+        if (imeTemp.isEmpty()) {
+            Toast.makeText(this, "Odaberite korisničko ime!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final String ime = imeTemp;
+
+        new Thread(() -> {
+            AppDatabase db = AppDatabase.getInstance(LoginActivity.this);
+            Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
+
+            if (k != null) {
+                String teloPoruke = "Poštovani " + k.getIme() + ",\n\nVaša lozinka je: "
+                        + k.getLozinka() + "\n\nSrdačan pozdrav,\nG-Track admin";
+
+                new AsinhroniZadatak(
+                        "Dostavljanje zaboravljene lozinke",
+                        teloPoruke,
+                        k.getEmail(),
+                        sender,
+                        LoginActivity.this
+                ).execute();
+
+            } else {
+                runOnUiThread(() ->
+                        Toast.makeText(LoginActivity.this, "Korisnik nije pronađen!", Toast.LENGTH_SHORT).show()
+                );
+            }
+        }).start();
+    }
+
+    public void prijavaKorisnika() {
+        int position = korIme.getSelectedItemPosition();
+        String pass = eLozinka.getText().toString().trim();
+
+        if (position == 0 || pass.isEmpty()) {
+            Toast.makeText(this, "Izaberite korisnika i unesite lozinku", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String korisnikIme = this.korIme.getSelectedItem().toString();
+
+        // Provera korisnika i lozinke u bazi
+        AppDatabase db = AppDatabase.getInstance(this);
+        Korisnik k = db.KorisnikDao().login(korisnikIme, pass);
+
+        if (k != null) {
+            Toast.makeText(this, "Prijava uspešna za " + korisnikIme, Toast.LENGTH_SHORT).show();
+            this.OtvoriMainFormu();
+        } else {
+            Toast.makeText(this, "Pogrešna lozinka!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

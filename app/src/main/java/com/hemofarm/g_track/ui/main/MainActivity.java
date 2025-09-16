@@ -3,6 +3,8 @@ package com.hemofarm.g_track.ui.main;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -28,6 +31,7 @@ import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.ui.account.AccountActivity;
 import com.hemofarm.g_track.ui.login.mail.AsinhroniZadatak;
 import com.hemofarm.g_track.util.Osluskivac;
+import com.hemofarm.g_track.util.PortraitCaptureActivity;
 import com.journeyapps.barcodescanner.ScanContract;
 import com.journeyapps.barcodescanner.ScanOptions;
 
@@ -236,5 +240,95 @@ barcodeLauncher = registerForActivityResult(
 
 
     }
+
+    public void obrisiPoslednjiZapis() {
+        final String oznaka = tPrikazOznaka.getText().toString().trim();
+        final String user = tPrikazUser.getText().toString().trim();
+        final String datum = tPrikazDatum.getText().toString().trim();
+        final String opisStavke = tPrikazOpisStavke.getText().toString().trim();
+
+        if (oznaka.isEmpty()) {
+            Toast.makeText(this, "Greška - podaci nisu obrisani!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (idPoslednjegZapisa != -1) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Potvrda brisanja")
+                    .setMessage("Da li ste sigurni da želite da obrišete unete podatke: "
+                            + oznaka + " " + opisStavke + " " + user + " " + datum + "?")
+                    .setPositiveButton("Da", (dialog, which) -> {
+                        AppDatabase.getInstance(this).ZapisDao().obrisiPoId(this.idPoslednjegZapisa);
+
+                        // očisti prikaz
+                        tPrikazOznaka.setText("Oznaka");
+                        tPrikazOpisStavke.setText("Opis");
+                        tPrikazUser.setText("Korisnik");
+                        tPrikazDatum.setText("Datum unosa");
+
+                        Toast.makeText(this, "Poslednji uneti podaci su obrisani iz baze!", Toast.LENGTH_SHORT).show();
+                        idPoslednjegZapisa = -1; // reset
+                    })
+                    .setNegativeButton("Ne", null)
+                    .show();
+        } else {
+            Toast.makeText(this, "Podaci ne postoje u bazi!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void pokreniQrSkeniranje() {
+        ScanOptions options = new ScanOptions();
+        options.setPrompt("Skeniraj QR kod");
+        options.setBeepEnabled(true);
+        options.setCaptureActivity(PortraitCaptureActivity.class);
+        options.setOrientationLocked(true);
+
+        barcodeLauncher.launch(options);
+    }
+
+    public void sacuvajZapis() {
+        String oznaka = eOznaka.getText().toString().trim();
+        String korisnik = tKorisnik.getText().toString().trim();
+        String opisStavke = eOpisStavke.getText().toString().trim();
+        long datum = System.currentTimeMillis();
+        ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+
+        if (oznaka.isEmpty()) {
+            Toast.makeText(this, "Unesite oznaku!", Toast.LENGTH_SHORT).show();
+            toneGen.startTone(ToneGenerator.TONE_PROP_NACK, 200);
+            return;
+        }
+
+        if (opisStavke.isEmpty()) {
+            Toast.makeText(this, "Unesite opis stavke!", Toast.LENGTH_SHORT).show();
+            toneGen.startTone(ToneGenerator.TONE_PROP_NACK, 200);
+            return;
+        }
+
+        Zapis unos = new Zapis(oznaka, korisnik, datum, opisStavke);
+        AppDatabase db = AppDatabase.getInstance(this);
+
+        long noviId = db.ZapisDao().unosZapisa(unos); // vratiće ID unosa
+
+        if (noviId != -1) { // uspešno sačuvan
+            idPoslednjegZapisa = (int) noviId;
+
+            tPrikazOznaka.setText(oznaka);
+            tPrikazUser.setText(korisnik);
+            tPrikazDatum.setText(android.text.format.DateFormat.format(
+                    "dd.MM.yyyy HH:mm:ss", new Date(datum)));
+            tPrikazOpisStavke.setText(opisStavke);
+
+
+            toneGen.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 120);
+            Toast.makeText(this, "Zapis je uspešno sačuvan!", Toast.LENGTH_SHORT).show();
+        } else {
+
+
+        }
+    }
+
+
+
 
 }
