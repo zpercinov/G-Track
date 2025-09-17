@@ -128,7 +128,7 @@ public class Osluskivac implements View.OnClickListener {
                     if (imaInternet(la))
                         la.obradiZaboravljenuLozinku();
                     else
-                        Toast.makeText(ma, "Nema internet konekcije", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(la, "Nema internet konekcije", Toast.LENGTH_SHORT).show();
 
             }
 
