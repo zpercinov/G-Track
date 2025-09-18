@@ -119,14 +119,14 @@ public class AccountActivity extends AppCompatActivity {
 
         // Postavljanje listener-a
         adapter.setOnItemClickListener(korisnikIme -> {
-            DohvatiPrikaziPinDialog(korisnikIme); // ime korisnika dolazi iz adaptera
+            dohvatiPrikaziPinDialog(korisnikIme); // ime korisnika dolazi iz adaptera
         });
         }
 
 
 
 
-    public void DohvatiPrikaziPinDialog(String korisnik) {
+    public void dohvatiPrikaziPinDialog(String korisnik) {
         final EditText pinDohvatiUnos = new EditText(this);
         pinDohvatiUnos.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
                 android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);

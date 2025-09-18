@@ -18,7 +18,6 @@ import com.hemofarm.g_track.db.Korisnik;
 import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.ui.account.AccountActivity;
 import com.hemofarm.g_track.ui.login.LoginActivity;
-import com.hemofarm.g_track.ui.login.mail.AsinhroniZadatak;
 import com.hemofarm.g_track.ui.main.LogViewActivity;
 import com.hemofarm.g_track.ui.main.MainActivity;
 import com.hemofarm.g_track.R;
