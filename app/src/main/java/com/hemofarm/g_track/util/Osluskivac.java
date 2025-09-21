@@ -68,8 +68,6 @@ public class Osluskivac implements View.OnClickListener {
                 }
             }
 
-
-
             if (v.getId() == R.id.btnLogOut) {
                 //Intent intent = new Intent(ma, LoginActivity.class);
                 //ma.startActivity(intent);
@@ -151,9 +149,6 @@ public class Osluskivac implements View.OnClickListener {
 
         if (aa != null) {
             // Ovde su akcije vezane za AccountActivity
-
-
-
 
         if (v.getId() == R.id.btnIzlazApp) {
             aa.finish();

@@ -40,7 +40,7 @@ public interface ZapisDao {
     long  prikaziStatistikuZapisaNaDan(long start, long end);
 
 
-    @Query("SELECT ime_korisnika, COUNT(*) AS broj FROM Zapis WHERE datum_unosa BETWEEN :start AND :end ORDER BY broj DESC")
+    @Query("SELECT ime_korisnika, COUNT(*) AS broj FROM Zapis WHERE datum_unosa BETWEEN :start AND :end GROUP BY ime_korisnika ORDER BY broj DESC")
     List<StatistikaKorisnika>  prikaziStatistikuKorisnikaNaDan(long start, long end);
 
 
