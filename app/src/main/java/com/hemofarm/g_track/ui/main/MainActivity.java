@@ -148,6 +148,7 @@ barcodeLauncher = registerForActivityResult(
         AppDatabase db = AppDatabase.getInstance(context);
         List<Zapis> sviLogovi = db.ZapisDao().dohvatiSveZapise();
 
+
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za izvoz", Toast.LENGTH_SHORT).show();
             return;
@@ -160,7 +161,7 @@ barcodeLauncher = registerForActivityResult(
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(log.korisnik).append(",")
+                    .append(db.ZapisDao().dohvatiImeKorsnika(log.korisnikID)).append(",")
                     .append(datumFormat).append(",")
                     .append(log.opisStavke)
                     .append("\n");
@@ -216,7 +217,7 @@ barcodeLauncher = registerForActivityResult(
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(log.korisnik).append(",")
+                    .append(db.ZapisDao().dohvatiImeKorsnika(log.korisnikID)).append(",")
                     .append(datumFormat)
                     .append("\n");
         }
@@ -304,9 +305,9 @@ barcodeLauncher = registerForActivityResult(
             toneGen.startTone(ToneGenerator.TONE_PROP_NACK, 200);
             return;
         }
-
-        Zapis unos = new Zapis(oznaka, korisnik, datum, opisStavke);
         AppDatabase db = AppDatabase.getInstance(this);
+        Zapis unos = new Zapis(oznaka, db.KorisnikDao().dohvatiIDKorisnika(korisnik), datum, opisStavke);
+
 
         long noviId = db.ZapisDao().unosZapisa(unos); // vratiće ID unosa
 

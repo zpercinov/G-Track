@@ -1,5 +1,6 @@
 package com.hemofarm.g_track.ui.main;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hemofarm.g_track.R;
+import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Zapis;
+import com.hemofarm.g_track.db.ZapisDao;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -21,6 +24,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
     private List<Zapis> logovi;
     private OnItemClickListener listener;
 
+    private Context context;
+
     public interface OnItemClickListener {
         void onItemClick(Zapis log);
     }
@@ -29,7 +34,8 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         this.listener = listener;
     }
 
-    public LogAdapter(List<Zapis> logovi) {
+    public LogAdapter(Context context, List<Zapis> logovi) {
+        this.context = context;
         this.logovi = logovi;
     }
 
@@ -43,9 +49,15 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
+
         Zapis log = logovi.get(position);
+
+        AppDatabase db = AppDatabase.getInstance(context);
+        ZapisDao zapisDao = db.ZapisDao();
+        String imeKorisnika = zapisDao.dohvatiImeKorsnika(log.korisnikID);
+
         holder.tvOznaka.setText(log.oznaka);
-        holder.tvKorisnik.setText(log.korisnik);
+        holder.tvKorisnik.setText(imeKorisnika);
         holder.tvOpisStavke.setText(log.opisStavke);
 
         String datumFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())

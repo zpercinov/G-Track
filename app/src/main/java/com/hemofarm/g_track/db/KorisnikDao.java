@@ -16,6 +16,9 @@ public interface  KorisnikDao {
     @Query("SELECT * FROM Korisnik WHERE ime_korisnika = :ime")
     Korisnik dohvatiKorisnika(String ime);
 
+    @Query("SELECT korisnikID FROM Korisnik WHERE ime_korisnika = :ime LIMIT 1")
+    Long dohvatiIDKorisnika(String ime);
+
     @Query("DELETE FROM Korisnik WHERE ime_korisnika = :ime")
     int brisanjeNalogaPoImenu(String ime);
 

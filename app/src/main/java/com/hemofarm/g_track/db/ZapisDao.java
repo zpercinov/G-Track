@@ -16,11 +16,23 @@ public interface ZapisDao {
 
 
 
-    @Query("SELECT * FROM Zapis ORDER BY ime_korisnika ASC, datum_unosa DESC")
+    @Query("SELECT Zapis.* FROM Zapis " +
+            "INNER JOIN Korisnik ON Zapis.korisnikID = Korisnik.korisnikID " +
+            "ORDER BY Korisnik.ime_korisnika ASC, Zapis.datum_unosa DESC")
     List<Zapis> dohvatiSveZapise();
 
 
-   @Query("SELECT * FROM Zapis WHERE datum_unosa BETWEEN :start AND :end ORDER BY ime_korisnika ASC")
+
+    @Query ("SELECT Korisnik.ime_korisnika FROM Korisnik "+
+            "INNER JOIN Zapis ON  Korisnik.korisnikID = Zapis.korisnikID "+
+            "WHERE Zapis.korisnikID = :id LIMIT 1")
+    String dohvatiImeKorsnika(long id);
+
+
+    @Query("SELECT Zapis.* FROM Zapis " +
+            "INNER JOIN Korisnik ON Zapis.korisnikID = Korisnik.korisnikID " +
+            "WHERE Zapis.datum_unosa BETWEEN :start AND :end " +
+            "ORDER BY Korisnik.ime_korisnika ASC")
    List<Zapis> dohvatiSveZapiseNaDan(long start, long end);
 
 
@@ -31,7 +43,11 @@ public interface ZapisDao {
     @Query("SELECT COUNT(*) FROM Zapis")
     long prikaziStatistikuZapisa();
 
-    @Query("SELECT ime_korisnika AS ime_korisnika, COUNT(*) AS broj FROM Zapis GROUP BY ime_korisnika ORDER BY broj DESC")
+    @Query("SELECT Korisnik.ime_korisnika AS ime_korisnika, COUNT(Zapis.zapisID) AS broj " +
+            "FROM Zapis " +
+            "INNER JOIN Korisnik ON Zapis.korisnikID = Korisnik.korisnikID " +
+            "GROUP BY Korisnik.ime_korisnika " +
+            "ORDER BY broj DESC")
     List<StatistikaKorisnika> prikaziStatistikuKorisnika();
 
 
@@ -40,7 +56,12 @@ public interface ZapisDao {
     long  prikaziStatistikuZapisaNaDan(long start, long end);
 
 
-    @Query("SELECT ime_korisnika, COUNT(*) AS broj FROM Zapis WHERE datum_unosa BETWEEN :start AND :end GROUP BY ime_korisnika ORDER BY broj DESC")
+    @Query("SELECT Korisnik.ime_korisnika AS ime_korisnika, COUNT(Zapis.zapisID) AS broj " +
+            "FROM Zapis " +
+            "INNER JOIN Korisnik ON Zapis.korisnikID = Korisnik.korisnikID " +
+            "WHERE Zapis.datum_unosa BETWEEN :start AND :end " +
+            "GROUP BY Korisnik.ime_korisnika " +
+            "ORDER BY broj DESC")
     List<StatistikaKorisnika>  prikaziStatistikuKorisnikaNaDan(long start, long end);
 
 

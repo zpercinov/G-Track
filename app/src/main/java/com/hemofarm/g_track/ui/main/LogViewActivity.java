@@ -22,6 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.hemofarm.g_track.R;
 import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Zapis;
+import com.hemofarm.g_track.db.ZapisDao;
 import com.hemofarm.g_track.util.Osluskivac;
 
 
@@ -86,6 +87,8 @@ public class LogViewActivity extends AppCompatActivity {
         // 🔹 Kalendar listener
         calendarView.setOnDateChangeListener(new OsluskivacKalendara(this));
 
+
+
     }
 
     private void prikaziBrojac(final Long startOfDay, final Long endOfDay) {
@@ -112,7 +115,7 @@ public class LogViewActivity extends AppCompatActivity {
     private void PrikaziPodatkeTab1() {
         AppDatabase db = AppDatabase.getInstance(this);
         List<Zapis> logovi = db.ZapisDao().dohvatiSveZapise();
-        adapterLog = new LogAdapter(logovi);
+        adapterLog = new LogAdapter(this, logovi);
         recyclerLog.setAdapter(adapterLog);
 
         adapterLog.setOnItemClickListener(this::showPinDialog);
@@ -126,17 +129,24 @@ public class LogViewActivity extends AppCompatActivity {
     }
 
     private void showPinDialog(Zapis log) {
+
+
+
         final EditText pinInput = new EditText(this);
         pinInput.setInputType(android.text.InputType.TYPE_CLASS_NUMBER |
                 android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD);
         pinInput.setHint("Unesite PIN");
+
+        AppDatabase db = AppDatabase.getInstance(this);
+        ZapisDao zapisDao = db.ZapisDao();
+        String imeKorisnika = zapisDao.dohvatiImeKorsnika(log.korisnikID);
 
         String datumFormat = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss", java.util.Locale.getDefault())
                 .format(new java.util.Date(log.datumUnosa));
 
         new androidx.appcompat.app.AlertDialog.Builder(this)
                 .setTitle("Potvrda brisanja")
-                .setMessage("Da li želite da obrišete stavku: " + log.oznaka + " " + log.opisStavke + " " + log.korisnik + " " + datumFormat + "? Unesite PIN da potvrdite.")
+                .setMessage("Da li želite da obrišete stavku: " + log.oznaka + " " + log.opisStavke + " " + imeKorisnika + " " + datumFormat + "? Unesite PIN da potvrdite.")
                 .setView(pinInput)
                 .setPositiveButton("Potvrdi", (dialog, which) -> {
                     String enteredPin = pinInput.getText().toString().trim();
@@ -204,7 +214,7 @@ public class LogViewActivity extends AppCompatActivity {
         List<Zapis> logovi = AppDatabase.getInstance(this)
                 .ZapisDao()
                 .dohvatiSveZapiseNaDan(start, end);
-        adapterLog = new LogAdapter(logovi);
+        adapterLog = new LogAdapter(this, logovi);
         recyclerLog.setAdapter(adapterLog);
         adapterLog.setOnItemClickListener(this::showPinDialog);
     }

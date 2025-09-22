@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Korisnik.class, Zapis.class, Pin.class}, version = 2)
+@Database(entities = {Korisnik.class, Zapis.class, Pin.class}, version = 5)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;
@@ -34,4 +34,5 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return INSTANCE;
 }
+
 }
