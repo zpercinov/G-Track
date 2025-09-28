@@ -110,7 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Učitavanje korisnika iz baze
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Korisnik> listaKorisnika = db.KorisnikDao().dohvatiSveKorisnike(); // pretpostavljamo da vraća List<Korisnik>
+        List<Korisnik> listaKorisnika = db.KorisnikDao().ucitajSveKorisnike(); // pretpostavljamo da vraća List<Korisnik>
         for (Korisnik k : listaKorisnika) {
             korisnici.add(k.getIme()); // dodaje ime korisnika u listu
         }
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
 
         new Thread(() -> {
             AppDatabase db = AppDatabase.getInstance(LoginActivity.this);
-            Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
+            Korisnik k = db.KorisnikDao().ucitajKorisnika(ime);
 
             if (k != null) {
                 String teloPoruke = "Poštovani " + k.getIme() + ",\n\nVaša lozinka je: "
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
         }).start();
     }
 
-    public void prijavaKorisnika() {
+    public void prijaviKorisnika() {
         int position = korIme.getSelectedItemPosition();
         String pass = eLozinka.getText().toString().trim();
 
@@ -189,7 +189,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Provera korisnika i lozinke u bazi
         AppDatabase db = AppDatabase.getInstance(this);
-        Korisnik k = db.KorisnikDao().login(korisnikIme, pass);
+        Korisnik k = db.KorisnikDao().proveriKorisnika(korisnikIme, pass);
 
         if (k != null) {
             Toast.makeText(this, "Prijava uspešna za " + korisnikIme, Toast.LENGTH_SHORT).show();

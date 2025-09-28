@@ -28,6 +28,7 @@ import com.hemofarm.g_track.R;
 import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Korisnik;
 import com.hemofarm.g_track.util.Osluskivac;
+import com.hemofarm.g_track.util.PinCode;
 
 import java.util.List;
 
@@ -103,7 +104,7 @@ public class AccountActivity extends AppCompatActivity {
         recyclerUsers = findViewById(R.id.recyclerUsers);
         recyclerUsers.setLayoutManager(new LinearLayoutManager(this));
 
-        preuzmiPin =  AppDatabase.getInstance(this).PinDao().dohvatiPin();
+        preuzmiPin = PinCode.DEFAULT.ucitajPin();
         ucitajKorisnike();
 
 
@@ -112,7 +113,7 @@ public class AccountActivity extends AppCompatActivity {
 
     public void ucitajKorisnike() {
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Korisnik> lista = db.KorisnikDao().dohvatiSveKorisnike();
+        List<Korisnik> lista = db.KorisnikDao().ucitajSveKorisnike();
         adapter = new UserAdapter(lista);
         recyclerUsers.setAdapter(adapter);
 

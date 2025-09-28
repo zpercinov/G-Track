@@ -17,7 +17,7 @@
     <string name="mail">Email adresa </string>
     <string name="preview">Prikaži</string>
     <string name="date_label">Datum unosa</string>
-    <string name="export_label">Izvezi</string>
+    <string name="export_label">Preuzmi</string>
     <string name="log_label">Pregled evidencije</string>
     <string name="send_label">Pošalji</string>
     <string name="brojac">Ukupno: 0</string>

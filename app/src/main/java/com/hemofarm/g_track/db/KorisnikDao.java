@@ -14,23 +14,18 @@ public interface  KorisnikDao {
     long kreirajNalog (Korisnik korisnik);
 
     @Query("SELECT * FROM Korisnik WHERE ime_korisnika = :ime")
-    Korisnik dohvatiKorisnika(String ime);
+    Korisnik ucitajKorisnika(String ime);
 
     @Query("SELECT korisnikID FROM Korisnik WHERE ime_korisnika = :ime LIMIT 1")
-    Long dohvatiIDKorisnika(String ime);
+    Long ucitajIDKorisnika(String ime);
 
     @Query("DELETE FROM Korisnik WHERE ime_korisnika = :ime")
     int brisanjeNalogaPoImenu(String ime);
 
     @Query("SELECT * FROM Korisnik WHERE ime_korisnika = :ime AND lozinka = :lozinka LIMIT 1")
-    Korisnik login(String ime, String lozinka);
+    Korisnik proveriKorisnika(String ime, String lozinka);
 
     @Query("SELECT * FROM Korisnik ORDER BY ime_korisnika ASC")
-    List<Korisnik> dohvatiSveKorisnike();
-
-    @Query("SELECT COUNT(*) FROM Korisnik WHERE ime_korisnika = :ime")
-    int existsByIme(String ime);
-
-
+    List<Korisnik> ucitajSveKorisnike();
 
 }

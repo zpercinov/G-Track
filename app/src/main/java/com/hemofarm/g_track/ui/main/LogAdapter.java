@@ -54,7 +54,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
 
         AppDatabase db = AppDatabase.getInstance(context);
         ZapisDao zapisDao = db.ZapisDao();
-        String imeKorisnika = zapisDao.dohvatiImeKorsnika(log.korisnikID);
+        String imeKorisnika = zapisDao.ucitajImeKorsnika(log.korisnikID);
 
         holder.tvOznaka.setText(log.oznaka);
         holder.tvKorisnik.setText(imeKorisnika);

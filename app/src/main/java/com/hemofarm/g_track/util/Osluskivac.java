@@ -60,7 +60,7 @@ public class Osluskivac implements View.OnClickListener {
                 if (imaInternet(ma)) {
                     String ime = ma.tKorisnik.getText().toString();
                     AppDatabase db = AppDatabase.getInstance(ma);
-                    Korisnik k = db.KorisnikDao().dohvatiKorisnika(ime);
+                    Korisnik k = db.KorisnikDao().ucitajKorisnika(ime);
 
                     ma.posaljiZapise(ma, k.getEmail(), LoginActivity.sender);
                 } else {
@@ -77,7 +77,7 @@ public class Osluskivac implements View.OnClickListener {
 
 
             if (v.getId() == R.id.btnIzvoz) {
-                ma.izveziZapiseUCSV(ma);
+                ma.preuzmiZapiseUCsv(ma);
 
             }
 
@@ -86,7 +86,7 @@ public class Osluskivac implements View.OnClickListener {
 
                 new Thread(() -> {
                     AppDatabase db = AppDatabase.getInstance(ma);
-                    List<Zapis> listaZapisa = db.ZapisDao().dohvatiSveZapise();
+                    List<Zapis> listaZapisa = db.ZapisDao().ucitajSveZapise();
                     ma.runOnUiThread(() -> {
                         if (listaZapisa != null && !listaZapisa.isEmpty())
                             ma.OtvoriViewFormu();
@@ -137,7 +137,7 @@ public class Osluskivac implements View.OnClickListener {
 
             if (v.getId() == R.id.btnPrijava) {
 
-                la.prijavaKorisnika();
+                la.prijaviKorisnika();
             }
 
 

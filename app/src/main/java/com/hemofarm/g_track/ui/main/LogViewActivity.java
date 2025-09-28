@@ -24,6 +24,7 @@ import com.hemofarm.g_track.db.AppDatabase;
 import com.hemofarm.g_track.db.Zapis;
 import com.hemofarm.g_track.db.ZapisDao;
 import com.hemofarm.g_track.util.Osluskivac;
+import com.hemofarm.g_track.util.PinCode;
 
 
 import java.util.Calendar;
@@ -79,7 +80,7 @@ public class LogViewActivity extends AppCompatActivity {
         prikaziBrojac(null, null);
 
         // 🔹 Preuzmi PIN iz baze
-        preuzmiPin = AppDatabase.getInstance(this).PinDao().dohvatiPin();
+        preuzmiPin = PinCode.DEFAULT.ucitajPin();
 
         // 🔹 Klik na izlaz dugme
         bIzlaz.setOnClickListener(new Osluskivac(this));
@@ -114,7 +115,7 @@ public class LogViewActivity extends AppCompatActivity {
 
     private void PrikaziPodatkeTab1() {
         AppDatabase db = AppDatabase.getInstance(this);
-        List<Zapis> logovi = db.ZapisDao().dohvatiSveZapise();
+        List<Zapis> logovi = db.ZapisDao().ucitajSveZapise();
         adapterLog = new LogAdapter(this, logovi);
         recyclerLog.setAdapter(adapterLog);
 
@@ -139,7 +140,7 @@ public class LogViewActivity extends AppCompatActivity {
 
         AppDatabase db = AppDatabase.getInstance(this);
         ZapisDao zapisDao = db.ZapisDao();
-        String imeKorisnika = zapisDao.dohvatiImeKorsnika(log.korisnikID);
+        String imeKorisnika = zapisDao.ucitajImeKorsnika(log.korisnikID);
 
         String datumFormat = new java.text.SimpleDateFormat("dd.MM.yyyy HH:mm:ss", java.util.Locale.getDefault())
                 .format(new java.util.Date(log.datumUnosa));
@@ -153,10 +154,10 @@ public class LogViewActivity extends AppCompatActivity {
                     if (enteredPin.equals(preuzmiPin)) {
                         AppDatabase.getInstance(LogViewActivity.this)
                                 .ZapisDao()
-                                .obrisiPoId(log.ZapisID);
+                                .obrisiZapis(log.ZapisID);
                         Toast.makeText(this, "Stavka je uspešno obrisana", Toast.LENGTH_SHORT).show();
                         PrikaziPodatkeTab1();
-                        filtrirajLog(trenutniStartOfDay, trenutniEndOfDay);
+                        filtrirajZapis(trenutniStartOfDay, trenutniEndOfDay);
                         prikaziBrojac(trenutniStartOfDay,trenutniEndOfDay);
                     } else {
 
@@ -179,7 +180,7 @@ public class LogViewActivity extends AppCompatActivity {
                 if (tab.getPosition() == 0) {
                     recyclerLog.setVisibility(View.VISIBLE);
                     recyclerZaposlen.setVisibility(View.GONE);
-                    if (trenutniStartOfDay != -1) filtrirajLog(trenutniStartOfDay, trenutniEndOfDay);
+                    if (trenutniStartOfDay != -1) filtrirajZapis(trenutniStartOfDay, trenutniEndOfDay);
                 } else {
                     recyclerLog.setVisibility(View.GONE);
                     recyclerZaposlen.setVisibility(View.VISIBLE);
@@ -210,10 +211,10 @@ public class LogViewActivity extends AppCompatActivity {
         }
     }
 
-    private void filtrirajLog(long start, long end) {
+    private void filtrirajZapis(long start, long end) {
         List<Zapis> logovi = AppDatabase.getInstance(this)
                 .ZapisDao()
-                .dohvatiSveZapiseNaDan(start, end);
+                .ucitajSveZapiseNaDan(start, end);
         adapterLog = new LogAdapter(this, logovi);
         recyclerLog.setAdapter(adapterLog);
         adapterLog.setOnItemClickListener(this::showPinDialog);
@@ -250,7 +251,7 @@ public class LogViewActivity extends AppCompatActivity {
             int aktivanTab = lva.tabLayout.getSelectedTabPosition();
 
             if (aktivanTab == 0) {
-                lva.filtrirajLog(lva.trenutniStartOfDay, lva.trenutniEndOfDay);
+                lva.filtrirajZapis(lva.trenutniStartOfDay, lva.trenutniEndOfDay);
             } else {
                 lva.filtrirajStatistiku(lva.trenutniStartOfDay, lva.trenutniEndOfDay);
             }

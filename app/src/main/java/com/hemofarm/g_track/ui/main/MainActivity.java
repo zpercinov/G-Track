@@ -143,10 +143,10 @@ barcodeLauncher = registerForActivityResult(
         */
 
     }
-    public void izveziZapiseUCSV(Context context) {
+    public void preuzmiZapiseUCsv(Context context) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Zapis> sviLogovi = db.ZapisDao().dohvatiSveZapise();
+        List<Zapis> sviLogovi = db.ZapisDao().ucitajSveZapise();
 
 
         if (sviLogovi.isEmpty()) {
@@ -161,7 +161,7 @@ barcodeLauncher = registerForActivityResult(
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(db.ZapisDao().dohvatiImeKorsnika(log.korisnikID)).append(",")
+                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID)).append(",")
                     .append(datumFormat).append(",")
                     .append(log.opisStavke)
                     .append("\n");
@@ -185,7 +185,7 @@ barcodeLauncher = registerForActivityResult(
                         OutputStream os = context.getContentResolver().openOutputStream(uri);
                         os.write(data.toString().getBytes());
                         os.close();
-                        Toast.makeText(context, "Izvezeno u Downloads folder!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Smešteno je u Downloads folder!", Toast.LENGTH_LONG).show();
                             } else {
                                     Toast.makeText(context, "Greška pri kreiranju fajla!", Toast.LENGTH_SHORT).show();
                                     }
@@ -195,7 +195,7 @@ barcodeLauncher = registerForActivityResult(
 
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context, "Greška- izvoz nije uspeo!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Greška- preuzimanje podataka nije uspeo!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -203,7 +203,7 @@ barcodeLauncher = registerForActivityResult(
     public void posaljiZapise(Context context, String recipient, String sender) {
         // Dobavi sve logove iz baze
         AppDatabase db = AppDatabase.getInstance(context);
-        List<Zapis> sviLogovi = db.ZapisDao().dohvatiSveZapise();
+        List<Zapis> sviLogovi = db.ZapisDao().ucitajSveZapise();
 
         if (sviLogovi.isEmpty()) {
             Toast.makeText(context, "Nema podataka za slanje.", Toast.LENGTH_SHORT).show();
@@ -217,7 +217,7 @@ barcodeLauncher = registerForActivityResult(
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(db.ZapisDao().dohvatiImeKorsnika(log.korisnikID)).append(",")
+                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID)).append(",")
                     .append(datumFormat)
                     .append("\n");
         }
@@ -259,7 +259,7 @@ barcodeLauncher = registerForActivityResult(
                     .setMessage("Da li ste sigurni da želite da obrišete unete podatke: "
                             + oznaka + " " + opisStavke + " " + user + " " + datum + "?")
                     .setPositiveButton("Da", (dialog, which) -> {
-                        AppDatabase.getInstance(this).ZapisDao().obrisiPoId(this.idPoslednjegZapisa);
+                        AppDatabase.getInstance(this).ZapisDao().obrisiZapis(this.idPoslednjegZapisa);
 
                         // očisti prikaz
                         tPrikazOznaka.setText("Oznaka");
@@ -306,7 +306,7 @@ barcodeLauncher = registerForActivityResult(
             return;
         }
         AppDatabase db = AppDatabase.getInstance(this);
-        Zapis unos = new Zapis(oznaka, db.KorisnikDao().dohvatiIDKorisnika(korisnik), datum, opisStavke);
+        Zapis unos = new Zapis(oznaka, db.KorisnikDao().ucitajIDKorisnika(korisnik), datum, opisStavke);
 
 
         long noviId = db.ZapisDao().unosZapisa(unos); // vratiće ID unosa
