@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-@Database(entities = {Korisnik.class, Zapis.class}, version = 6)
+@Database(entities = {Korisnik.class, Zapis.class}, version = 7)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;

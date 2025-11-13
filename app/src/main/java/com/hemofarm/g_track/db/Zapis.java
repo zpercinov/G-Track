@@ -25,14 +25,18 @@ public class Zapis {
     @ColumnInfo( name = "datum_unosa")
     public long datumUnosa;
 
+    @ColumnInfo (name = "opis_kolone")
+    public String opisKolone;
+
     @ColumnInfo (name = "opis_stavke")
     public String opisStavke;
 
-    public Zapis(String oznaka, long korisnikID, long datumUnosa, String opisStavke) {
+    public Zapis(String oznaka, long korisnikID, long datumUnosa, String opisStavke, String opisKolone) {
         this.oznaka = oznaka;
         this.korisnikID = korisnikID;
         this.datumUnosa = datumUnosa;
         this.opisStavke = opisStavke;
+        this.opisKolone = opisKolone;
     }
 
 }

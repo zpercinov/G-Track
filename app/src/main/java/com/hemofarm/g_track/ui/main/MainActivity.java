@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     public int idPoslednjegZapisa = -1;
     ImageButton bLogOut;
      public EditText eOznaka;
+     public EditText eOpisKolone;
      ImageButton bQr;
      Button bSave;
 
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView tPrikazUser;
     public TextView tPrikazDatum;
     public TextView tPrikazOpisStavke;
+    public TextView tPrikazOpisKolone;
 
     public EditText eOpisStavke;
      public ActivityResultLauncher<ScanOptions> barcodeLauncher;
@@ -80,8 +82,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         eOpisStavke = findViewById(R.id.edtOpisStavke);
+        eOpisKolone = findViewById(R.id.edtOpisKolone);
 
         tPrikazOznaka = findViewById(R.id.tvOznaka);
+        tPrikazOpisKolone = findViewById(R.id.tvOpisKolone);
         tPrikazUser = findViewById(R.id.tvUser);
         tPrikazDatum = findViewById(R.id.tvDatum);
         tPrikazOpisStavke = findViewById(R.id.tvOpisStavke);
@@ -246,6 +250,7 @@ barcodeLauncher = registerForActivityResult(
         final String oznaka = tPrikazOznaka.getText().toString().trim();
         final String user = tPrikazUser.getText().toString().trim();
         final String datum = tPrikazDatum.getText().toString().trim();
+        final String opisKolone = tPrikazOpisKolone.getText().toString().trim();
         final String opisStavke = tPrikazOpisStavke.getText().toString().trim();
 
         if (oznaka.isEmpty()) {
@@ -257,13 +262,14 @@ barcodeLauncher = registerForActivityResult(
             new AlertDialog.Builder(this)
                     .setTitle("Potvrda brisanja")
                     .setMessage("Da li ste sigurni da želite da obrišete unete podatke: "
-                            + oznaka + " " + opisStavke + " " + user + " " + datum + "?")
+                            + oznaka + " " + opisKolone + " " + opisStavke + " " + user + " " + datum + "?")
                     .setPositiveButton("Da", (dialog, which) -> {
                         AppDatabase.getInstance(this).ZapisDao().obrisiZapis(this.idPoslednjegZapisa);
 
                         // očisti prikaz
                         tPrikazOznaka.setText("Oznaka");
                         tPrikazOpisStavke.setText("Opis");
+                        tPrikazOpisKolone.setText("Opis kolone");
                         tPrikazUser.setText("Korisnik");
                         tPrikazDatum.setText("Datum unosa");
 
@@ -290,6 +296,7 @@ barcodeLauncher = registerForActivityResult(
     public void sacuvajZapis() {
         String oznaka = eOznaka.getText().toString().trim();
         String korisnik = tKorisnik.getText().toString().trim();
+        String opisKolone = eOpisKolone.getText().toString().trim();
         String opisStavke = eOpisStavke.getText().toString().trim();
         long datum = System.currentTimeMillis();
         ToneGenerator toneGen = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
@@ -306,7 +313,7 @@ barcodeLauncher = registerForActivityResult(
             return;
         }
         AppDatabase db = AppDatabase.getInstance(this);
-        Zapis unos = new Zapis(oznaka, db.KorisnikDao().ucitajIDKorisnika(korisnik), datum, opisStavke);
+        Zapis unos = new Zapis(oznaka, db.KorisnikDao().ucitajIDKorisnika(korisnik), datum, opisStavke, opisKolone);
 
 
         long noviId = db.ZapisDao().unosZapisa(unos); // vratiće ID unosa
@@ -319,6 +326,7 @@ barcodeLauncher = registerForActivityResult(
             tPrikazDatum.setText(android.text.format.DateFormat.format(
                     "dd.MM.yyyy HH:mm:ss", new Date(datum)));
             tPrikazOpisStavke.setText(opisStavke);
+            tPrikazOpisKolone.setText(opisKolone);
 
 
             toneGen.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 120);

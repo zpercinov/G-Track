@@ -59,6 +59,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
         holder.tvOznaka.setText(log.oznaka);
         holder.tvKorisnik.setText(imeKorisnika);
         holder.tvOpisStavke.setText(log.opisStavke);
+        holder.tvOpisKolone.setText(log.opisKolone);
 
         String datumFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", Locale.getDefault())
                 .format(new Date(log.datumUnosa));
@@ -78,7 +79,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
     }
 
     public static class LogViewHolder extends RecyclerView.ViewHolder {
-        TextView tvOznaka, tvKorisnik, tvDatum, tvOpisStavke;
+        TextView tvOznaka, tvKorisnik, tvDatum, tvOpisStavke, tvOpisKolone;
 
         public LogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +87,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder> {
             tvKorisnik = itemView.findViewById(R.id.textvKorisnik);
             tvDatum = itemView.findViewById(R.id.textvDatum);
             tvOpisStavke = itemView.findViewById(R.id.textvOpisStavke);
+            tvOpisKolone = itemView.findViewById(R.id.textvOpisKolone);
         }
     }
 }
