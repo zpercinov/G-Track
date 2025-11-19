@@ -15,19 +15,20 @@
         android:textColor="@color/bela"
         android:textSize="16sp" />
     <TextView
-        android:id="@+id/textvOpisStavke"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/labelOpisStavke"
-        android:textColor="@color/bela"
-        android:textSize="14sp" />
-    <TextView
         android:id="@+id/textvOpisKolone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/labelOpisKolone"
         android:textColor="@color/bela"
         android:textSize="14sp" />
+    <TextView
+        android:id="@+id/textvOpisStavke"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/labelOpisStavke"
+        android:textColor="@color/bela"
+        android:textSize="14sp" />
+
     <TextView
         android:id="@+id/textvKorisnik"
         android:layout_width="wrap_content"

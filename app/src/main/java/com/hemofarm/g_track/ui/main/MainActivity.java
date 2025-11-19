@@ -160,14 +160,18 @@ barcodeLauncher = registerForActivityResult(
 
         // Napravi CSV sadržaj
         StringBuilder data = new StringBuilder();
-        data.append("Oznaka,Korisnik,Datum\n"); // header
+        data.append("Oznaka,Opis_kolone,Opis_stavke,Datum_unosa,Korisnik\n"); // header
 
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID)).append(",")
+                    .append(log.opisKolone).append(",")
+                    .append(log.opisStavke).append(",")
                     .append(datumFormat).append(",")
-                    .append(log.opisStavke)
+                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID))
+
+
+
                     .append("\n");
         }
 
@@ -216,13 +220,15 @@ barcodeLauncher = registerForActivityResult(
 
         // Napravi CSV sadržaj
         StringBuilder data = new StringBuilder();
-        data.append("Oznaka,Korisnik,Datum\n"); // header
+        data.append("Oznaka,Opis_kolone,Opis_stavke,Datum_unosa,Korisnik\n"); // header
 
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
             data.append(log.oznaka).append(",")
-                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID)).append(",")
-                    .append(datumFormat)
+                    .append(log.opisKolone).append(",")
+                    .append(log.opisStavke).append(",")
+                    .append(datumFormat).append(",")
+                    .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID))
                     .append("\n");
         }
 

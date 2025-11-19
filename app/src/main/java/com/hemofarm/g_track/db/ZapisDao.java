@@ -16,9 +16,7 @@ public interface ZapisDao {
 
 
 
-    @Query("SELECT Zapis.* FROM Zapis " +
-            "INNER JOIN Korisnik ON Zapis.korisnikID = Korisnik.korisnikID " +
-            "ORDER BY Korisnik.ime_korisnika ASC, Zapis.datum_unosa DESC")
+    @Query("SELECT * FROM Zapis " )
     List<Zapis> ucitajSveZapise();
 
 
