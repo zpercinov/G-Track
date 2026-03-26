@@ -1,19 +1,19 @@
 <div align="center">
-<img src="https://upload.wikimedia.org/wikipedia/sr/5/57/%D0%A4%D0%9E%D0%9D_%D0%91%D0%B5%D0%BE%D0%B3%D1%80%D0%B0%D0%B4_%28%D0%BB%D0%BE%D0%B3%D0%BE%29.png" alt="FON logo" width="300"/>
-<br/>
+  <img src="https://upload.wikimedia.org/wikipedia/sr/5/57/%D0%A4%D0%9E%D0%9D_%D0%91%D0%B5%D0%BE%D0%B3%D1%80%D0%B0%D0%B4_%28%D0%BB%D0%BE%D0%B3%D0%BE%29.png" alt="FON logo" width="300"/>
+  <br/>
 
-## **UNIVERZITET U BEOGRADU**  
-### **FAKULTET ORGANIZACIONIH NAUKA**
+  ## **UNIVERZITET U BEOGRADU**  
+  ### **FAKULTET ORGANIZACIONIH NAUKA**
 
-Specijalističke akademske studije  
-**Modul: Java tehnologije**
+  Specijalističke akademske studije  
+  **Modul: Java tehnologije**
 
----
+  ---
 
-### **Seminarski rad iz predmeta: Android programiranje u Javi**
+  ### **Seminarski rad iz predmeta: Android programiranje u Javi**
 
-## Softverski sistem za praćenje upotrebe pretkolona u tečnoj hromatografiji  
-## Android aplikacija „G-Track“
+  ## Softverski sistem za praćenje upotrebe pretkolona u tečnoj hromatografiji  
+  ## Android aplikacija „G-Track“
 
 </div>
 
@@ -81,10 +81,7 @@ Aplikacija je organizovana po slojevima:
 - **Business logika** – obrada podataka i validacija  
 - **Data sloj** – rad sa SQLite bazom  
 
-
-
 ---
-
 
 ### Karakteristike:
 
@@ -107,43 +104,37 @@ Aplikacija je organizovana po slojevima:
 
 ## 🚀 Pokretanje projekta
 
-### 1. Kloniranje repozitorijuma
-
 ```bash
+1. Kloniranje repozitorijuma
 git clone https://github.com/zpercinov/G-Track.git
 cd G-Track
 
-## 📱 2. Pokretanje u Android Studio okruženju
+2. Pokretanje u Android Studio okruženju
+Otvoriti Android Studio
 
-1. Otvoriti **Android Studio**  
-2. Kliknuti na **File → Open**  
-3. Izabrati folder projekta  
-4. Sačekati **Gradle sync**  
-5. Pokrenuti aplikaciju (**Run ▶️**)  
-6. Izabrati emulator ili fizički uređaj  
+Kliknuti na File → Open
 
----
+Izabrati folder projekta
 
+Sačekati Gradle sync
 
-## 🤝 Saradnja i zahvalnost
+Pokrenuti aplikaciju (Run ▶️)
 
-Posebnu zahvalnost dugujem:
+Izabrati emulator ili fizički uređaj
+```
 
-**Ani D. Trujić**, asistentkinji na predmetu,  
-za stručnu podršku, korisne sugestije i posvećenost tokom realizacije projekta.
+## 🤝 Saradnja
+Posebnu zahvalnost dugujem Ani D. Trujić, asistentkinji na predmetu, za stručnu podršku, korisne sugestije i posvećenost tokom realizacije projekta.
 
 ## 👨‍💻 Autor
-
-**Zoran Perčinov**  
-Specijalističke akademske studije – Java tehnologije  
-Fakultet organizacionih nauka  
-Univerzitet u Beogradu  
-📧 zp20244151@student.fon.bg.ac.rs  
-
----
+Zoran Perčinov
+Specijalističke akademske studije – Java tehnologije
+Fakultet organizacionih nauka
+Univerzitet u Beogradu
+📧 Email: zp20244151@student.fon.bg.ac.rs
 
 ## 👨‍🏫 Mentor
+prof. Dr Siniša Vlajić
+Fakultet organizacionih nauka
+Univerzitet u Beogradu
 
-**prof. Dr Siniša Vlajić**  
-Fakultet organizacionih nauka  
-Univerzitet u Beogradu  
