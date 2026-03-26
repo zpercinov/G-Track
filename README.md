@@ -124,37 +124,6 @@ cd G-Track
 
 ---
 
-## 📊 Izveštavanje
-
-Sistem omogućava:
-
-- generisanje izveštaja o korišćenju  
-- filtriranje podataka pre izvoza  
-- izvoz u **CSV format**  
-- slanje izveštaja putem email-a  
-
----
-
-## ⚠️ Napomena
-
-Aplikacija je razvijena u edukativne svrhe:
-
-- koristi lokalnu bazu podataka  
-- nije namenjena produkcionom okruženju  
-- može se dalje unaprediti i proširiti  
-
----
-
-## 🚀 Moguća unapređenja
-
-- ☁️ integracija sa cloud bazom (Firebase)  
-- 🔐 autentikacija korisnika  
-- 🔔 notifikacije za zamenu pretkolona  
-- 📈 napredna analitika  
-- 🌐 integracija sa LIMS sistemima  
-
----
-
 
 ## 🤝 Saradnja i zahvalnost
 
