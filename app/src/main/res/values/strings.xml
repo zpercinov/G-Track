@@ -4,10 +4,10 @@
     <string name="password">Lozinka</string>
     <string name="password_repeat">Ponovi lozinku</string>
     <string name="login">PRIJAVI SE</string>
-    <string name="version_name">G-TRACK v1.0</string>
+    <string name="version_name">G-TRACK v1.1</string>
     <string name="account">Napravite nalog</string>
-    <string name="labelOznaka">Oznaka</string>
-    <string name="labelOpisKolone">Opis kolone</string>
+    <string name="labelOznaka">Barcode:Naziv predkolone i kataloski broj</string>
+    <string name="labelOpisKolone">Oznaka kolone</string>
     <string name="labelOpisStavkeHint">gp/api i test</string>
     <string name="labelOpisStavke">Opis</string>
     <string name="save">Sačuvaj</string>

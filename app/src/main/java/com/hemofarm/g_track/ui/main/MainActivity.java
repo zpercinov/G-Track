@@ -160,14 +160,14 @@ barcodeLauncher = registerForActivityResult(
 
         // Napravi CSV sadržaj
         StringBuilder data = new StringBuilder();
-        data.append("Oznaka,Opis_kolone,Opis_stavke,Datum_unosa,Korisnik\n"); // header
+        data.append("Barcode|Oznaka_kolone|gp_api_i_test|Datum_unosa|Korisnik\n"); // header
 
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
-            data.append(log.oznaka).append(",")
-                    .append(log.opisKolone).append(",")
-                    .append(log.opisStavke).append(",")
-                    .append(datumFormat).append(",")
+            data.append(log.oznaka).append("|")
+                    .append(log.opisKolone).append("|")
+                    .append(log.opisStavke).append("|")
+                    .append(datumFormat).append("|")
                     .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID))
 
 
@@ -220,14 +220,14 @@ barcodeLauncher = registerForActivityResult(
 
         // Napravi CSV sadržaj
         StringBuilder data = new StringBuilder();
-        data.append("Oznaka,Opis_kolone,Opis_stavke,Datum_unosa,Korisnik\n"); // header
+        data.append("Barcode|Oznaka_kolone|gp_api_i_test|Datum_unosa|Korisnik\n"); // header
 
         for (Zapis log : sviLogovi) {
             String datumFormat = android.text.format.DateFormat.format("dd.MM.yyyy HH:mm", new Date(log.datumUnosa)).toString();
-            data.append(log.oznaka).append(",")
-                    .append(log.opisKolone).append(",")
-                    .append(log.opisStavke).append(",")
-                    .append(datumFormat).append(",")
+            data.append(log.oznaka).append("|")
+                    .append(log.opisKolone).append("|")
+                    .append(log.opisStavke).append("|")
+                    .append(datumFormat).append("|")
                     .append(db.ZapisDao().ucitajImeKorsnika(log.korisnikID))
                     .append("\n");
         }
